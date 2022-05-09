@@ -10,6 +10,8 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import AuthGuard from "./utils/route-guard/AuthGuard";
+import GuestGuard from "./utils/route-guard/GuestGuard";
 
 // ----------------------------------------------------------------------
 
@@ -19,10 +21,26 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> }
+        { path: 'app', element:
+              <AuthGuard>
+                <DashboardApp />
+              </AuthGuard>
+        },
+        { path: 'user', element:
+              <AuthGuard>
+                <User />
+              </AuthGuard>
+        },
+        { path: 'products', element:
+              <AuthGuard>
+                <Products />
+              </AuthGuard>
+        },
+        { path: 'blog', element:
+              <AuthGuard>
+                <Blog />
+              </AuthGuard>
+        }
       ]
     },
     {
@@ -30,8 +48,16 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" /> },
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
+        { path: 'login', element:
+              <GuestGuard>
+                <Login />
+              </GuestGuard>
+        },
+        { path: 'register', element:
+              <GuestGuard>
+                <Register />
+              </GuestGuard>
+        },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> }
       ]

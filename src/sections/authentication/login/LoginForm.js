@@ -6,38 +6,57 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import {
   Link,
   Stack,
-  Checkbox,
   TextField,
   IconButton,
   InputAdornment,
-  FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
+import {useSnackbar} from "notistack";
 import Iconify from '../../../components/Iconify';
+import {loginUser, useAuthDispatch} from "../../../context";
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAuthDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required')
+    login: Yup.string().required('Логин обязателен').min(3, "Никнейм должен быть больше 3 символов"),
+    password: Yup.string().required('Пароль обязателен')
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      login: '',
       password: '',
-      remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
-    }
-  });
+    onSubmit: (values) =>
+        loginUser(dispatch, values)
+            .then(result => {
+                  if (result) {
+                    enqueueSnackbar("Вы авторизованы!", { variant: 'success' });
+                  } else {
+                    console.log(result)
+                    enqueueSnackbar("Неправильный логин/пароль", { variant: 'error' });
+                  }
+                },
+                reason => {
+                  const {response} = reason
+                  if (response.status === 401) {
+                    enqueueSnackbar("Такого пользователя не существует", {variant: "error"})
+                  } else if (response.status === 400) {
+                    enqueueSnackbar("Неверный пароль", {variant: "error"})
+                  } else {
+                    console.log(reason)
+                    enqueueSnackbar(`Ошибка: ${response.data.error}`, {variant: 'error'});
+                  }
+                })
+  })
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -52,18 +71,18 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            type="text"
+            label="Логин"
+            {...getFieldProps('login')}
+            error={Boolean(touched.login && errors.login)}
+            helperText={touched.login && errors.login}
           />
 
           <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
-            label="Password"
+            label="Пароль"
             {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
@@ -80,13 +99,8 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-          <FormControlLabel
-            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
-            label="Remember me"
-          />
-
           <Link component={RouterLink} variant="subtitle2" to="#" underline="hover">
-            Forgot password?
+            Забыли пароль?
           </Link>
         </Stack>
 
@@ -97,7 +111,7 @@ export default function LoginForm() {
           variant="contained"
           loading={isSubmitting}
         >
-          Login
+          Войти
         </LoadingButton>
       </Form>
     </FormikProvider>
