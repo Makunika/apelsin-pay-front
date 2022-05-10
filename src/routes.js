@@ -59,9 +59,9 @@ export default function Router() {
               </GuestGuard>
         },
         { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" /> }
+        { path: '*', element: <NotFound /> }
       ]
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <NotFound /> }
   ]);
 }

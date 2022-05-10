@@ -4,7 +4,7 @@ import {logout} from "../context";
 
 // https://www.npmjs.com/package/axios-jwt
 
-const BASE_URL = "http://localhost:8080/"
+const BASE_URL = "http://pshiblo.xyz/"
 const URL_AUTH = "auth-service/"
 const URL_TRANSACTION = "transaction-service/"
 const URL_INFO_BUSINESS = "info-business-service/"
@@ -13,7 +13,6 @@ const URL_ACCOUNT_PERSONAL = "account-personal-service/"
 const URL_ACCOUNT_BUSINESS = "account-business-service/"
 const URL_PAYMENTS = "payment-service/"
 const URL_USERS = "users-service/"
-// const BASE_URL = "/"
 
 const api = axios.create({
     baseURL: BASE_URL,

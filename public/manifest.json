@@ -1,6 +1,6 @@
 {
-  "short_name": "Minimal App",
-  "name": "React Material Minimal UI Kit",
+  "short_name": "Apelsin Pay",
+  "name": "Apelsin payment system",
   "icons": [
     {
       "src": "favicon/android-chrome-192x192.png",

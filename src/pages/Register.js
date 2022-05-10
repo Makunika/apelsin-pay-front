@@ -39,17 +39,17 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Register() {
   return (
-    <RootStyle title="Register | Minimal-UI">
+    <RootStyle title="Регистрация | Apelsin pay">
       <AuthLayout>
-        Already have an account? &nbsp;
+        Уже есть аккаунт? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
-          Login
+          Войти
         </Link>
       </AuthLayout>
 
       <SectionStyle sx={{ display: { xs: 'none', md: 'flex' } }}>
         <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-          Manage the job more effectively with Minimal
+          Управляй своими финансами при помощи Апельсин pay
         </Typography>
         <img alt="register" src="/static/illustrations/illustration_register.png" />
       </SectionStyle>
@@ -58,23 +58,23 @@ export default function Register() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Get started absolutely free.
+              Регистрация в Апельсин
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-              Free forever. No credit card needed.
+              Всегда удобно.
             </Typography>
           </Box>
 
           <RegisterForm />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-            By registering, I agree to Minimal&nbsp;
+            Регистрируясь, я соглашаюсь с Апельсин.&nbsp;
             <Link underline="always" color="textPrimary">
-              Terms of Service
+              Условия сервиса
             </Link>
-            &nbsp;and&nbsp;
+            &nbsp;и&nbsp;
             <Link underline="always" color="textPrimary">
-              Privacy Policy
+              Политика конфиденциальности
             </Link>
             .
           </Typography>
@@ -87,9 +87,9 @@ export default function Register() {
               display: { sm: 'none' }
             }}
           >
-            Already have an account?&nbsp;
+            Уже есть аккаунт?&nbsp;
             <Link underline="hover" to="/login" component={RouterLink}>
-              Login
+              Войти
             </Link>
           </Typography>
         </ContentStyle>
