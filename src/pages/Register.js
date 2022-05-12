@@ -1,12 +1,14 @@
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, Redirect} from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Card, Link, Container, Typography } from '@mui/material';
 // layouts
+import React from "react";
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { RegisterForm } from '../sections/authentication/register';
+import {getAuthorizationUrl} from "../api/AuthApi";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +44,7 @@ export default function Register() {
     <RootStyle title="Регистрация | Apelsin pay">
       <AuthLayout>
         Уже есть аккаунт? &nbsp;
-        <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
+        <Link underline="none" variant="subtitle2" href={getAuthorizationUrl()} to="/login">
           Войти
         </Link>
       </AuthLayout>
@@ -88,7 +90,7 @@ export default function Register() {
             }}
           >
             Уже есть аккаунт?&nbsp;
-            <Link underline="hover" to="/login" component={RouterLink}>
+            <Link underline="hover" href={getAuthorizationUrl()}>
               Войти
             </Link>
           </Typography>

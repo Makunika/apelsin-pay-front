@@ -1,12 +1,14 @@
-import { Link as RouterLink } from 'react-router-dom';
+import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Card, Stack, Link, Container, Typography } from '@mui/material';
+import {Card, Stack, Link, Container, Typography, CircularProgress} from '@mui/material';
 // layouts
+import {useEffect} from "react";
+import {useSnackbar} from "notistack";
 import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
-import { LoginForm } from '../sections/authentication/login';
+import {loginUser, useAuthDispatch} from "../context";
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +40,32 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAuthDispatch();
+  const {enqueueSnackbar} = useSnackbar();
+
+  console.log(location)
+  const params = new URLSearchParams(location.search);
+  console.log(params.get('code'))
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (!params.has("code")) {
+      return
+    }
+
+    loginUser(dispatch, {code: params.get("code")})
+        .then(() => {
+          enqueueSnackbar("Вы авторизованы", {variant: "success"})
+        })
+        .catch(reason => {
+          console.log(reason)
+          enqueueSnackbar(`Ошибка: ${reason}`, {variant: "error"})
+        })
+
+  }, [])
+
   return (
     <RootStyle title="Login | Minimal-UI">
       <AuthLayout>
@@ -54,22 +82,25 @@ export default function Login() {
         <img src="/static/illustrations/illustration_login.png" alt="login" />
       </SectionStyle>
 
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" >
         <ContentStyle>
-          <Stack sx={{ mb: 5 }}>
+          <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+          >
             <Typography variant="h4" gutterBottom>
-              Войти в Апельсин
+              Производим вход в Апельсин
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Введите данные для авторизации снизу.</Typography>
+            <CircularProgress />
           </Stack>
-
-          <LoginForm />
 
           <Typography
             variant="body2"
             align="center"
             sx={{
-              mt: 3,
+              mt: 2,
               display: { sm: 'none' }
             }}
           >

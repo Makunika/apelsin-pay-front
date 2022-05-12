@@ -75,7 +75,7 @@ export default function RegisterForm() {
           ).then(res => {
             console.log(res)
             enqueueSnackbar("Регистрация пройдена успешно, выполните вход", {variant: "success"})
-            navigate('/login', { replace: true });
+            navigate('/', { replace: true });
           },
           reason => {
             console.log(reason)

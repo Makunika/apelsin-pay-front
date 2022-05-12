@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Navigate } from 'react-router-dom';
 import {useAuthState} from "../../context";
+import {getAuthorizationUrl} from "../../api/AuthApi"
 
 function AuthGuard({ children }) {
     const account = useAuthState();
     const { isLoggedIn } = account;
-
+    
     if (!isLoggedIn) {
-        return <Navigate to="/login" />;
+        window.location = getAuthorizationUrl()
     }
 
     return children;

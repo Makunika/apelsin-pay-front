@@ -7,13 +7,13 @@ export async function loginUser(dispatch, loginPayload) {
     console.log(loginPayload);
 
     const url = `${BASE_URL}${URL_AUTH}oauth/token`
-    const headerAuth = `Basic ${btoa("browser_main:browser_secret")}`
+    const headerAuth = `Basic ${btoa("browser_main:")}`
 
     const credentials = {
-        grant_type: 'password',
-        username: loginPayload.login,
-        password: loginPayload.password,
-        scope: 'user'
+        grant_type: "authorization_code",
+        code: loginPayload.code,
+        redirect_uri: "http://localhost:3000/login",
+        client_id: "browser_main",
     }
 
     const config = {
