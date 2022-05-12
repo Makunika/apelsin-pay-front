@@ -1,6 +1,6 @@
 import axios from "axios";
-import {applyAuthTokenInterceptor, clearAuthTokens} from "axios-jwt";
-import {logout} from "../context";
+import {applyAuthTokenInterceptor, clearAuthTokens, setAuthTokens} from "axios-jwt";
+import qs from "qs";
 
 // https://www.npmjs.com/package/axios-jwt
 
@@ -14,19 +14,42 @@ const URL_ACCOUNT_BUSINESS = "account-business-service/"
 const URL_PAYMENTS = "payment-service/"
 const URL_USERS = "users-service/"
 
-const api = axios.create({
+const API_SECURED = axios.create({
     baseURL: BASE_URL,
     responseType: "json"
 })
 
 const requestRefresh = async (refresh) => {
+    const url = `${BASE_URL}${URL_AUTH}oauth/token`
+    const headerAuth = `Basic ${btoa("browser_main:")}`
+    console.log(refresh)
+    const credentials = {
+        grant_type: "refresh_token",
+        refresh_token: refresh,
+        client_id: "browser_main",
+    }
+
+    const config = {
+        url,
+        headers: {
+            "Authorization": headerAuth
+        },
+        method: 'post',
+        data: qs.stringify(credentials)
+    };
     try {
-        const response = await axios.post(`${BASE_URL}${URL_AUTH}oauth/token/refresh_token`,
-            {refresh}
-        );
+        const response = await axios(config);
+        const {data} = response
+        const currentUser = {
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token,
+            user: parseJwt(data.access_token)
+        }
+        console.log(currentUser)
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
         return {
-            accessToken: response.data.access_token,
-            refreshToken: response.data.refresh_token
+            accessToken: currentUser.accessToken,
+            refreshToken: currentUser.refreshToken
         }
     } catch (e) {
         console.log(e.toJSON())
@@ -37,7 +60,7 @@ const requestRefresh = async (refresh) => {
 }
 
 
-applyAuthTokenInterceptor(api, {
+applyAuthTokenInterceptor(API_SECURED, {
     requestRefresh,
     header: "Authorization",
     headerPrefix: "Bearer "
@@ -55,6 +78,6 @@ const parseJwt = (token) => {
     return JSON.parse(jsonPayload);
 };
 
-export default api;
+export default API_SECURED;
 export {BASE_URL, URL_PAYMENTS, URL_TRANSACTION, URL_AUTH, URL_USERS, URL_INFO_BUSINESS, URL_INFO_PERSONAL, URL_ACCOUNT_PERSONAL, URL_ACCOUNT_BUSINESS, parseJwt};
 

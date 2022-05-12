@@ -41,7 +41,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Login() {
 
-  const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAuthDispatch();
   const {enqueueSnackbar} = useSnackbar();

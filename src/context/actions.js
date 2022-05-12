@@ -1,7 +1,7 @@
 import axios from "axios";
 import {clearAuthTokens, isLoggedIn, setAuthTokens} from "axios-jwt";
 import qs from "qs";
-import {BASE_URL, parseJwt, URL_AUTH} from "../api/Api";
+import {BASE_URL, parseJwt, URL_AUTH} from "../api/ApiSecured";
 
 export async function loginUser(dispatch, loginPayload) {
     console.log(loginPayload);

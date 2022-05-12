@@ -9,7 +9,7 @@ import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import axios from "axios";
 import {useSnackbar} from "notistack";
 import Iconify from '../../../components/Iconify';
-import {BASE_URL, URL_INFO_PERSONAL} from "../../../api/Api";
+import {BASE_URL, URL_INFO_PERSONAL} from "../../../api/ApiSecured";
 import "yup-phone";
 
 export default function RegisterForm() {
@@ -66,7 +66,7 @@ export default function RegisterForm() {
     onSubmit: (values) => {
       console.log(values)
       console.log(JSON.stringify(values))
-      return axios.post(
+      return axios.deposit(
           `${BASE_URL}${URL_INFO_PERSONAL}public/register`,
           values,
           {
