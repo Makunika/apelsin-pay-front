@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import {Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack} from '@mui/material';
+import {Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack, CardHeader} from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
+import {fNumberDeposit, fShortenNumber} from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
+import SimpleAccordion from "../../../components/SimpleAccordion";
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ export default function DepositCardDetail({ deposit }) {
   const { balance, currency, lock, number, typeId, typeName, userId, validType } = deposit
 
   return (
-    <Grid item xs={12} sm={6} md={4} padding={1}>
+    <Grid item xs={12} sm={6} md={6} padding={1}>
       <Card sx={{
         position: 'relative',
         ...((lock) && {
@@ -74,20 +75,11 @@ export default function DepositCardDetail({ deposit }) {
           }
         })
       }}>
-
+        <CardHeader title="Информация о счете" />
         <CardContent
         >
-          <Typography variant="h4" gutterBottom>
-            Информация о счете
-          </Typography>
-
-          <Typography variant="body2">
-            {`Тип счета: ${typeName}`}
-          </Typography>
-          <Typography variant="body2">
-            {`Номер счета: ${number}`}
-          </Typography>
-
+          <SimpleAccordion title="Тип счета" body={typeName} />
+          <SimpleAccordion title="Номер счета" body={fNumberDeposit(number)} />
           <InfoStyle>
             {lock && <Typography color="warning">Счет заблокирован</Typography>}
             <Typography >{`Баланс ${balance} ${currency}`}</Typography>

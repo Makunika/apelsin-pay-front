@@ -13,6 +13,7 @@ import NotFound from './pages/Page404';
 import AuthGuard from "./utils/route-guard/AuthGuard";
 import GuestGuard from "./utils/route-guard/GuestGuard";
 import DepositDetail from "./pages/DepositDetail";
+import DepositNew from "./pages/DepositNew";
 
 // ----------------------------------------------------------------------
 
@@ -45,6 +46,11 @@ export default function Router() {
         { path: 'deposit', element:
                 <AuthGuard>
                     <DepositDetail />
+                </AuthGuard>
+        },
+        { path: 'deposits/new', element:
+                <AuthGuard>
+                    <DepositNew />
                 </AuthGuard>
         }
       ]

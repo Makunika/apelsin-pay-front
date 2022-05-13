@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import {Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack} from '@mui/material';
+import {Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack, TextField} from '@mui/material';
 // utils
 import { fDate } from '../../../utils/formatTime';
-import { fShortenNumber } from '../../../utils/formatNumber';
+import {fNumberDeposit, fShortenNumber} from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
@@ -93,7 +93,7 @@ export default function DepositCard({ deposit, index }) {
               variant="caption"
               sx={{ color: 'text.disabled', display: 'block' }}
           >
-            {`Номер счета: ${number}`}
+            {`Номер счета: ${fNumberDeposit(number)}`}
           </Typography>
 
           <InfoStyle>

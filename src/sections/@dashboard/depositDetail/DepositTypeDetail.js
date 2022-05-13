@@ -2,13 +2,27 @@ import PropTypes from 'prop-types';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import {Box, Link, Card, Grid, Avatar, Typography, CardContent, Stack} from '@mui/material';
+import {
+  Box,
+  Link,
+  Card,
+  Grid,
+  Avatar,
+  Typography,
+  CardContent,
+  Stack,
+  Accordion,
+  AccordionSummary, AccordionDetails, CardHeader
+} from '@mui/material';
 // utils
+import {useState} from "react";
+import {LoadingButton} from "@mui/lab";
 import { fDate } from '../../../utils/formatTime';
 import { fShortenNumber } from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
+import SimpleAccordion from "../../../components/SimpleAccordion";
 
 // ----------------------------------------------------------------------
 
@@ -53,32 +67,48 @@ const CoverImgStyle = styled('img')({
 // ----------------------------------------------------------------------
 
 DepositTypeDetail.propTypes = {
-  deposit: PropTypes.object.isRequired
+  type: PropTypes.object.isRequired,
+  showTitle: PropTypes.bool,
+  titleButton: PropTypes.string,
+  handleButton: PropTypes.func,
+  defaultExpanded: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
-export default function DepositTypeDetail({ type }) {
+export default function DepositTypeDetail({ loading, type, showTitle, titleButton, handleButton, defaultExpanded }) {
   const { currency, description, maxSum, maxSumForPay, minSumToStartWork, name, requiredToFirstPay, typeRequiredConfirmed, valid } = type
-
   return (
-    <Grid item xs={12} sm={6} md={3} padding={1}>
+    <Grid item xs={12} sm={6} md={6} padding={1}>
       <Card>
-        <CardContent
-        >
-          <TitleStyle>
-            {typeName}
-          </TitleStyle>
+        {showTitle && (
+          <CardHeader title="Информация о типе счете" />
+        )}
+        <CardContent>
 
-          <Typography
-              gutterBottom
-              variant="caption"
-              sx={{ color: 'text.disabled', display: 'block' }}
-          >
-            {`Номер счета: ${number}`}
+          <Typography variant="h6">
+            {`${name}`}
           </Typography>
-
+          <Typography variant="body1" gutterBottom>
+            {`${description}`}
+          </Typography>
+          <SimpleAccordion defaultExpanded={defaultExpanded} title="Максимальная сумма на счете" body={`${maxSum} ${currency}`} />
+          <SimpleAccordion defaultExpanded={defaultExpanded} title="Максимальная сумма для перевода" body={`${maxSumForPay} ${currency}`} />
+          {minSumToStartWork && (
+              <SimpleAccordion defaultExpanded={defaultExpanded} title="Минимальная сумма для активации счета" body={`${minSumToStartWork} ${currency}`} />
+          )}
+          <SimpleAccordion defaultExpanded={defaultExpanded} title="Необходимость подтверждения профиля" body={typeRequiredConfirmed ? "Да" : "Нет"} />
           <InfoStyle>
-            {lock && <Typography color="warning">Счет заблокирован</Typography>}
-            <Typography>{`${balance} ${currency}`}</Typography>
+            {!valid && <Typography color="warning">Архивный</Typography>}
+            {handleButton && (
+                <LoadingButton
+                  loading={loading}
+                  onClick={() => {
+                    handleButton(type)
+                  }}
+                >
+                  {titleButton}
+                </LoadingButton>
+            )}
           </InfoStyle>
         </CardContent>
       </Card>

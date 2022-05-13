@@ -25,12 +25,9 @@ export default function Deposit() {
   const [isLoading, setLoading] = useState(true)
   const [deposits, setDeposits] = useState([])
   const {enqueueSnackbar} = useSnackbar();
-  console.log(deposits)
-  console.log(POSTS)
   useEffect(() => {
     API_SECURED.get(`${URL_ACCOUNT_PERSONAL}api/personal/`)
         .then(res => {
-          console.log(res.data)
           setDeposits(res.data)
           setLoading(false)
         })
@@ -62,7 +59,7 @@ export default function Deposit() {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
+            to="/dashboard/deposits/new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Открыть новый счет

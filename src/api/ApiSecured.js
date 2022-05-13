@@ -40,6 +40,7 @@ const requestRefresh = async (refresh) => {
     try {
         const response = await axios(config);
         const {data} = response
+        console.log(response)
         const currentUser = {
             accessToken: data.access_token,
             refreshToken: data.refresh_token,
@@ -52,9 +53,9 @@ const requestRefresh = async (refresh) => {
             refreshToken: currentUser.refreshToken
         }
     } catch (e) {
-        console.log(e.toJSON())
-        localStorage.removeItem('currentUser');
-        clearAuthTokens()
+        console.log(e)
+        // localStorage.removeItem('currentUser');
+        // clearAuthTokens()
     }
     return {}
 }
