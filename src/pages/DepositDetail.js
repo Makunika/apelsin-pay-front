@@ -12,6 +12,7 @@ import DepositCardDetail from "../sections/@dashboard/depositDetail/DepositCardD
 import {fNumberDeposit} from "../utils/formatNumber";
 import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeDetail";
 import {AppOrderTimeline} from "../sections/@dashboard/app";
+import TransactionOpen from "../sections/@dashboard/depositDetail/TransactionOpen";
 
 export default function DepositDetail() {
     const [isLoading, setLoading] = useState(true)
@@ -79,6 +80,7 @@ export default function DepositDetail() {
                     <DepositCardDetail deposit={deposit.deposit} />
                     <DepositTypeDetail showTitle type={deposit.type} />
                     <AppOrderTimeline number={deposit.deposit.number} />
+                    <TransactionOpen number={deposit.deposit.number} />
                 </Stack>
             </Container>
         </Page>

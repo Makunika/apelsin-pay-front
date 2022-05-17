@@ -54,8 +54,8 @@ const requestRefresh = async (refresh) => {
         }
     } catch (e) {
         console.log(e)
-        // localStorage.removeItem('currentUser');
-        // clearAuthTokens()
+        localStorage.removeItem('currentUser');
+        clearAuthTokens()
     }
     return {}
 }
