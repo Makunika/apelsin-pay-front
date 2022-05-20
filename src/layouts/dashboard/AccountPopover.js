@@ -75,6 +75,9 @@ export default function AccountPopover() {
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user.email}
           </Typography>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+            {user.user_name}
+          </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />

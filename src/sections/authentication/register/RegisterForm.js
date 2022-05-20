@@ -66,7 +66,7 @@ export default function RegisterForm() {
     onSubmit: (values) => {
       console.log(values)
       console.log(JSON.stringify(values))
-      return axios.deposit(
+      return axios.company(
           `${BASE_URL}${URL_INFO_PERSONAL}public/register`,
           values,
           {

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import {Card, Grid, Typography, CardContent, CardHeader} from '@mui/material';
+import {Card, Grid, Typography, CardContent, CardHeader, Stack} from '@mui/material';
 // utils
 import {fNumberDeposit} from '../../../utils/formatNumber';
 //
 import SimpleAccordion from "../../../components/SimpleAccordion";
+import {fCurrencyByEnum} from "../../../utils/formatEnum";
+import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +25,7 @@ DepositCardDetail.propTypes = {
   deposit: PropTypes.object.isRequired
 };
 
-export default function DepositCardDetail({ deposit }) {
+export default function DepositCardDetail({deposit }) {
   const { balance, currency, lock, number, typeId, typeName, userId, validType } = deposit
 
   return (
@@ -42,13 +44,14 @@ export default function DepositCardDetail({ deposit }) {
         })
       }}>
         <CardHeader title="Информация о счете" />
-        <CardContent
-        >
-          <SimpleAccordion title="Тип счета" body={typeName} />
-          <SimpleAccordion title="Номер счета" body={fNumberDeposit(number)} />
+        <CardContent>
+          <Stack justifyContent="flex-start" direction="column" >
+            <SimpleDataVisible label="Тип счета" text={typeName} />
+            <SimpleDataVisible label="Номер счета" text={fNumberDeposit(number)} />
+          </Stack>
           <InfoStyle>
             {lock && <Typography color="warning">Счет заблокирован</Typography>}
-            <Typography >{`Баланс ${balance} ${currency}`}</Typography>
+            <Typography >{`Баланс ${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
           </InfoStyle>
         </CardContent>
       </Card>

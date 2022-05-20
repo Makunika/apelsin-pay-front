@@ -10,6 +10,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import sidebarConfig from './SidebarConfig';
 import {useAuthState} from "../../context";
+import {fStatusConfirmed} from "../../utils/formatEnum";
 
 const DRAWER_WIDTH = 280;
 
@@ -60,13 +61,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar alt={user.name}/>
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {user.name}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {user.status}
+                {fStatusConfirmed(user.status)}
               </Typography>
             </Box>
           </AccountStyle>

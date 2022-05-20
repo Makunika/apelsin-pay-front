@@ -9,6 +9,8 @@ import {fNumberDeposit, fShortenNumber} from '../../../utils/formatNumber';
 //
 import SvgIconStyle from '../../../components/SvgIconStyle';
 import Iconify from '../../../components/Iconify';
+import {fCurrencyByEnum} from "../../../utils/formatEnum";
+import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
 // ----------------------------------------------------------------------
 
@@ -87,18 +89,10 @@ export default function DepositCard({ deposit, index }) {
           >
             {typeName}
           </TitleStyle>
-
-          <Typography
-              gutterBottom
-              variant="caption"
-              sx={{ color: 'text.disabled', display: 'block' }}
-          >
-            {`Номер счета: ${fNumberDeposit(number)}`}
-          </Typography>
-
+          <SimpleDataVisible label="Номер счета" text={fNumberDeposit(number)} />
           <InfoStyle>
             {lock && <Typography color="warning">Счет заблокирован</Typography>}
-            <Typography>{`${balance} ${currency}`}</Typography>
+            <Typography>{`${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
           </InfoStyle>
         </CardContent>
       </Card>

@@ -6,20 +6,9 @@ import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
-import { DepositCard, BlogPostsSort, BlogPostsSearch } from '../sections/@dashboard/deposit';
+import { DepositCard} from '../sections/@dashboard/deposit';
 //
-import POSTS from '../_mocks_/blog';
 import API_SECURED, {URL_ACCOUNT_PERSONAL} from "../api/ApiSecured";
-
-// ----------------------------------------------------------------------
-
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' }
-];
-
-// ----------------------------------------------------------------------
 
 export default function Deposit() {
   const [isLoading, setLoading] = useState(true)

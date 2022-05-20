@@ -1,6 +1,6 @@
-import {Link as RouterLink, useLocation} from 'react-router-dom';
+import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
 // material
-import {Grid, Button, Container, Stack, Typography, CircularProgress, Box, Breadcrumbs, Link} from '@mui/material';
+import {Button, Container, Stack, Typography, CircularProgress, Breadcrumbs, Link} from '@mui/material';
 // components
 import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
@@ -11,15 +11,17 @@ import API_SECURED, {URL_ACCOUNT_PERSONAL} from "../api/ApiSecured";
 import DepositCardDetail from "../sections/@dashboard/depositDetail/DepositCardDetail";
 import {fNumberDeposit} from "../utils/formatNumber";
 import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeDetail";
-import {AppOrderTimeline} from "../sections/@dashboard/app";
 import TransactionOpen from "../sections/@dashboard/depositDetail/TransactionOpen";
+import TransactionList from "../sections/@dashboard/depositDetail/TransactionList";
+import Section404 from "../sections/404/Section404";
 
 export default function DepositDetail() {
     const [isLoading, setLoading] = useState(true)
     const [deposit, setDeposit] = useState({})
+    const [isNotFound, setNotFound] = useState(false)
+    const [refreshAll, setRefreshAll] = useState(Math.random())
     const {enqueueSnackbar} = useSnackbar();
     const location = useLocation();
-    console.log(deposit)
 
     useEffect(() => {
         const depositData = {
@@ -38,9 +40,15 @@ export default function DepositDetail() {
             })
             .catch(reason => {
                 console.log(reason)
-                enqueueSnackbar(`Ошибка: ${reason}`, { variant: "error" })
+                if (reason.response.status === 404) {
+                    enqueueSnackbar("Счет не найден!", { variant: "error" })
+                    setNotFound(true)
+                    setLoading(false)
+                } else {
+                    enqueueSnackbar(`Ошибка: ${reason.response.data.message}`, { variant: "error" })
+                }
             })
-    }, [])
+    }, [refreshAll])
 
     if (isLoading) {
         return (
@@ -51,6 +59,16 @@ export default function DepositDetail() {
                     </Stack>
                 </Container>
             </Page>
+        )
+    }
+
+    if (isNotFound) {
+        return (
+          <Page>
+              <Container>
+                  <Section404 renderBack />
+              </Container>
+          </Page>
         )
     }
 
@@ -79,8 +97,8 @@ export default function DepositDetail() {
                 <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
                     <DepositCardDetail deposit={deposit.deposit} />
                     <DepositTypeDetail showTitle type={deposit.type} />
-                    <AppOrderTimeline number={deposit.deposit.number} />
-                    <TransactionOpen number={deposit.deposit.number} />
+                    <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+                    <TransactionOpen refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
                 </Stack>
             </Container>
         </Page>
