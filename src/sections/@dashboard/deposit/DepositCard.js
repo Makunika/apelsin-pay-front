@@ -14,11 +14,6 @@ import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
 // ----------------------------------------------------------------------
 
-const CardMediaStyle = styled('div')({
-  position: 'relative',
-  paddingTop: 'calc(100% * 3 / 4)'
-});
-
 const TitleStyle = styled(Link)({
   height: 44,
   overflow: 'hidden',
@@ -27,32 +22,12 @@ const TitleStyle = styled(Link)({
   WebkitBoxOrient: 'vertical'
 });
 
-const AvatarStyle = styled(Avatar)(({ theme }) => ({
-  zIndex: 9,
-  width: 32,
-  height: 32,
-  position: 'absolute',
-  left: theme.spacing(3),
-  bottom: theme.spacing(-2)
-}));
-
 const InfoStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'flex-end',
   marginTop: theme.spacing(3),
-
 }));
-
-const CoverImgStyle = styled('img')({
-  top: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute'
-});
-
-// ----------------------------------------------------------------------
 
 DepositCard.propTypes = {
   deposit: PropTypes.object.isRequired,

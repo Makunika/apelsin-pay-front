@@ -25,7 +25,7 @@ DepositCardDetail.propTypes = {
   deposit: PropTypes.object.isRequired
 };
 
-export default function DepositCardDetail({deposit }) {
+export default function DepositCardDetail({ deposit }) {
   const { balance, currency, lock, number, typeId, typeName, userId, validType } = deposit
 
   return (

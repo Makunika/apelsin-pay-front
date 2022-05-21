@@ -14,6 +14,7 @@ import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeD
 import TransactionOpen from "../sections/@dashboard/depositDetail/TransactionOpen";
 import TransactionList from "../sections/@dashboard/depositDetail/TransactionList";
 import Section404 from "../sections/404/Section404";
+import {fillTypeDataPersonal} from "../utils/depositUtils";
 
 export default function DepositDetail() {
     const [isLoading, setLoading] = useState(true)
@@ -96,7 +97,12 @@ export default function DepositDetail() {
                 </Stack>
                 <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
                     <DepositCardDetail deposit={deposit.deposit} />
-                    <DepositTypeDetail showTitle type={deposit.type} />
+                    <DepositTypeDetail showTitle
+                                       type={fillTypeDataPersonal(deposit.type)}
+                                       name={deposit.type.name}
+                                       description={deposit.type.description}
+                                       valid={deposit.type.valid}
+                    />
                     <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
                     <TransactionOpen refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
                 </Stack>

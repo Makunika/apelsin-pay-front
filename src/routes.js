@@ -16,6 +16,7 @@ import DepositDetail from "./pages/DepositDetail";
 import DepositNew from "./pages/DepositNew";
 import Company from "./pages/Company";
 import CompanyDetail from "./pages/CompanyDetail";
+import CompanyNew from "./pages/CompanyNew";
 
 // ----------------------------------------------------------------------
 
@@ -23,47 +24,37 @@ export default function Router() {
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element:
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>,
       children: [
         { path: 'app', element:
-            <AuthGuard>
-              <DashboardApp />
-            </AuthGuard>
+            <DashboardApp />
         },
         { path: 'user', element:
-            <AuthGuard>
-              <User />
-            </AuthGuard>
+            <User />
         },
         { path: 'products', element:
-            <AuthGuard>
-              <Products />
-            </AuthGuard>
+            <Products />
         },
         { path: 'blog', element:
-            <AuthGuard>
-              <Deposit />
-            </AuthGuard>
+            <Deposit />
         },
         { path: 'deposit', element:
-            <AuthGuard>
-              <DepositDetail />
-            </AuthGuard>
+            <DepositDetail />
         },
         { path: 'deposits/new', element:
-            <AuthGuard>
-              <DepositNew />
-            </AuthGuard>
+            <DepositNew />
         },
         { path: 'companies', element:
-            <AuthGuard>
-              <Company />
-            </AuthGuard>
+            <Company />
         },
         { path: 'company', element:
-            <AuthGuard>
-              <CompanyDetail />
-            </AuthGuard>
+            <CompanyDetail />
+        },
+        { path: 'companies/new', element:
+            <CompanyNew />
         }
       ]
     },
