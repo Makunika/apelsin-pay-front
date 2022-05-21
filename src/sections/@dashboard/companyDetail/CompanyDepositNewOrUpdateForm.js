@@ -25,7 +25,6 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
   const [isLoading, setLoading] = useState(true)
   const [types, setTypes] = useState([])
   const {enqueueSnackbar} = useSnackbar();
-  const navigate = useNavigate();
 
   useEffect(() => {
     API_SECURED.get(`${URL_ACCOUNT_BUSINESS}api/business/type`)
@@ -40,24 +39,40 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
   }, [])
 
   const handleNew = (type) => {
-    console.log("ok")
     setLoading(true)
     const data = {
-      typeId: type.id
+      typeId: type.id,
+      companyId: companyUser.company.id
     }
-    API_SECURED.post(`${URL_ACCOUNT_PERSONAL}api/personal/`, data)
+    API_SECURED.post(`${URL_ACCOUNT_BUSINESS}api/business/`, data)
       .then(res => {
         setLoading(false)
         enqueueSnackbar("Счет создан", {variant: "success"})
-        navigate(`/dashboard/deposit?${res.data.number}`, { replace: true })
+        window.location.reload()
       })
       .catch(reason => {
         console.log(reason)
         setLoading(false)
-        let msg = reason.response.data.message;
-        if (msg.includes("Limit")) {
-          msg = "Превышен лимит счетов"
-        }
+        const msg = reason.response.data.message;
+        enqueueSnackbar(`Ошибка: ${msg}`, { variant: "error" })
+      })
+  }
+  const handleUpdate = () => {
+    setLoading(true)
+    const data = {
+      typeId: updateInfo.type.id,
+      number: updateInfo.deposit.number
+    }
+    API_SECURED.post(`${URL_ACCOUNT_BUSINESS}api/business/type/change`, data)
+      .then(res => {
+        setLoading(false)
+        enqueueSnackbar("Тип счета изменен", {variant: "success"} )
+        window.location.reload()
+      })
+      .catch(reason => {
+        console.log(reason)
+        setLoading(false)
+        const msg = reason.response.data.message;
         enqueueSnackbar(`Ошибка: ${msg}`, { variant: "error" })
       })
   }
@@ -106,7 +121,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
             name={value.name}
             description={value.description}
             type={fillTypeDataBusiness(value)}
-            handleButton={handleNew}
+            handleButton={updateInfo == null ? handleNew : handleUpdate}
             titleButton="Выбрать"
             showTitle={false}
             defaultExpanded

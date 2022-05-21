@@ -17,6 +17,9 @@ import DepositNew from "./pages/DepositNew";
 import Company from "./pages/Company";
 import CompanyDetail from "./pages/CompanyDetail";
 import CompanyNew from "./pages/CompanyNew";
+import ModeratorGuard from "./utils/route-guard/ModeratorGuard";
+import CompanyModerator from "./pages/CompanyModerator";
+import Profile from "./pages/Profile";
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +58,15 @@ export default function Router() {
         },
         { path: 'companies/new', element:
             <CompanyNew />
+        },
+        { path: 'profile', element:
+            <Profile />
+        },
+        {
+          path: 'moderate/company', element:
+            <ModeratorGuard>
+              <CompanyModerator />
+            </ModeratorGuard>
         }
       ]
     },

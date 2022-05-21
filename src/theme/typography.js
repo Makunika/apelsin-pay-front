@@ -94,7 +94,7 @@ const typography = {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: 'capitalize'
+    textTransform: 'none'
   }
 };
 

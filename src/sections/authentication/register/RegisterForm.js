@@ -29,14 +29,6 @@ export default function RegisterForm() {
     email: Yup.string()
         .email('Email должен быть валидным!')
         .required('Email обязателен'),
-    passportNumber: Yup.string()
-        .length(6, "Номер паспорта должен состоять из 6 символов")
-        .matches(/\d/, "Только цифры!")
-        .required('Номер паспорта обязателен'),
-    passportSeries: Yup.string()
-        .length(4, "Серия паспорта должен состоять из 4 символов")
-        .matches(/\d/, "Только цифры!")
-        .required('Серия паспорта обязательна'),
     birthday: Yup.date()
         .required('Дата обязательна'),
     login: Yup.string()
@@ -56,8 +48,6 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       login: '',
-      passportNumber: '',
-      passportSeries: '',
       birthday: '',
       password: '',
       phone: '+7'
@@ -66,7 +56,7 @@ export default function RegisterForm() {
     onSubmit: (values) => {
       console.log(values)
       console.log(JSON.stringify(values))
-      return axios.company(
+      return axios.post(
           `${BASE_URL}${URL_INFO_PERSONAL}public/register`,
           values,
           {
@@ -105,24 +95,6 @@ export default function RegisterForm() {
               {...getFieldProps('lastName')}
               error={Boolean(touched.lastName && errors.lastName)}
               helperText={touched.lastName && errors.lastName}
-            />
-          </Stack>
-
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <TextField
-                fullWidth
-                label="Серия паспорта"
-                {...getFieldProps('passportSeries')}
-                error={Boolean(touched.passportSeries && errors.passportSeries)}
-                helperText={touched.passportSeries && errors.passportSeries}
-            />
-
-            <TextField
-                fullWidth
-                label="Номер паспорта"
-                {...getFieldProps('passportNumber')}
-                error={Boolean(touched.passportNumber && errors.passportNumber)}
-                helperText={touched.passportNumber && errors.passportNumber}
             />
           </Stack>
 
