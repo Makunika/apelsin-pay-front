@@ -57,10 +57,10 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
         enqueueSnackbar(`Ошибка: ${msg}`, { variant: "error" })
       })
   }
-  const handleUpdate = () => {
+  const handleUpdate = (type) => {
     setLoading(true)
     const data = {
-      typeId: updateInfo.type.id,
+      typeId: type.id,
       number: updateInfo.deposit.number
     }
     API_SECURED.post(`${URL_ACCOUNT_BUSINESS}api/business/type/change`, data)
@@ -88,6 +88,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
       </Page>
     )
   }
+  const filterTypes = isUpdate ? types.filter(value => value.id !== updateInfo.type.id) : types
 
   return (
     <Container>
@@ -115,7 +116,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
         </Typography>
       </Stack>
       <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
-        {types.filter(value => value.id !== updateInfo.type.id).map((value, index) => (
+        {filterTypes.map((value, index) => (
           <DepositTypeDetail
             key={value.id}
             name={value.name}
@@ -126,6 +127,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
             showTitle={false}
             defaultExpanded
             valid={value.valid}
+            typeReturned={value}
           />
         ))}
       </Stack>

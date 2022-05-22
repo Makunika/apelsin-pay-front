@@ -27,7 +27,7 @@ export default function CompanyForm({ initCompany, isSave, id }) {
   ).then(res => {
       console.log(res)
       enqueueSnackbar("Компания была создана, ожидайте подтверждения компании", {variant: "success"})
-      navigate(`/dashboard/company?${res.data.id}`);
+      navigate(`/dashboard/company?${res.data.id}`)
     },
     reason => {
       console.log(reason)

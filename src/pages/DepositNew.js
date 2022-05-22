@@ -101,6 +101,7 @@ export default function DepositNew() {
               showTitle={false}
               defaultExpanded
               valid={value.valid}
+              typeReturned={value}
             />
           ))}
         </Stack>

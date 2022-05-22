@@ -27,6 +27,8 @@ import {DepositCardDetail} from "../sections/@dashboard/depositDetail";
 import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeDetail";
 import {fillTypeDataBusiness} from "../utils/depositUtils";
 import CompanyDepositNewOrUpdateForm from "../sections/@dashboard/companyDetail/CompanyDepositNewOrUpdateForm";
+import CompanyCardUsers from "../sections/@dashboard/companyDetail/CompanyCardUsers";
+import TransactionList from "../sections/@dashboard/depositDetail/TransactionList";
 
 export default function CompanyDetail() {
   const location = useLocation();
@@ -60,12 +62,12 @@ export default function CompanyDetail() {
       })
       .then(res => {
         console.log(res)
-        if (res.data.length === 0)
+        if (res.data.typeId == null)
           return null;
         // eslint-disable-next-line prefer-destructuring
-        depositData.deposit = res.data[0]
+        depositData.deposit = res.data
         return API_SECURED.get(`${URL_ACCOUNT_BUSINESS}api/business/type/${depositData.deposit.typeId}`)
-      })
+      }, reason => {})
       .then(res => {
         depositData.type = res != null ? res.data : null
         setDeposit(depositData)
@@ -176,7 +178,7 @@ export default function CompanyDetail() {
           </Link>
           <Typography color="text.primary">{company.name}</Typography>
         </Breadcrumbs>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} flexWrap="wrap">
           <Typography variant="h4" gutterBottom>
             Компания
           </Typography>
@@ -211,6 +213,13 @@ export default function CompanyDetail() {
                                showTitle
             />
           )}
+          {deposit.type != null && (
+            <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+          )}
+          <CompanyCardUsers companyUser={companyUser}
+                            refresh={setRefreshAll}
+                            refreshState={refreshAll}
+          />
         </Stack>
       </Container>
     </Page>

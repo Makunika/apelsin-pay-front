@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {Box, Divider, Typography} from "@mui/material";
+import {Box, Button, Divider, Typography} from "@mui/material";
 
 SimpleDataVisible.propTypes = {
   label: PropTypes.string.isRequired,
@@ -8,7 +8,10 @@ SimpleDataVisible.propTypes = {
   mb: PropTypes.number,
   colorTitle: PropTypes.oneOf(
     ["text.disable", "text.error"]
-  )
+  ),
+  withButton: PropTypes.bool,
+  onClick: PropTypes.func,
+  titleButton: PropTypes.any
 }
 
 export default function SimpleDataVisible({
@@ -16,12 +19,22 @@ export default function SimpleDataVisible({
                                             text,
                                             withDivider = true,
                                             mb = 1,
-                                            colorTitle = 'text.disable'
+                                            colorTitle = 'text.disable',
+                                            withButton = false,
+                                            onClick,
+                                            titleButton,
 }) {
   return (
     <Box mb={mb} >
       <Typography variant="caption" color={colorTitle}>{label}</Typography>
       <Typography variant="body1">{text}</Typography>
+      {withButton && (
+        <Button color="secondary"
+                onClick={onClick}
+        >
+          {titleButton}
+        </Button>
+      )}
       {withDivider && (
         <Divider />
       )}

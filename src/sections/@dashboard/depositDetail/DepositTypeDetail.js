@@ -34,10 +34,11 @@ DepositTypeDetail.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired,
-  sx: PropTypes.object
+  sx: PropTypes.object,
+  typeReturned: PropTypes.object
 };
 
-export default function DepositTypeDetail({ loading, type, name, description, valid, showTitle, titleButton, handleButton, defaultExpanded, sx }) {
+export default function DepositTypeDetail({ loading, type, name, description, valid, showTitle, titleButton, handleButton, defaultExpanded, sx, typeReturned }) {
   return (
     <Grid item xs={12} sm={6} md={6} padding={1}>
       <Card
@@ -65,7 +66,7 @@ export default function DepositTypeDetail({ loading, type, name, description, va
                 <LoadingButton
                   loading={loading}
                   onClick={() => {
-                    handleButton(type)
+                    handleButton(typeReturned)
                   }}
                 >
                   {titleButton}
