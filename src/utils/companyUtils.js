@@ -3,5 +3,8 @@ export function isOwner(companyUser) {
 }
 
 export function isConfirmed(companyUser) {
+  if (companyUser == null || companyUser.company == null) {
+    return false
+  }
   return companyUser.company.status === 'CONFIRMED'
 }

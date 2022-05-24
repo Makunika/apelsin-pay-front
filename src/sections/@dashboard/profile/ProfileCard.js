@@ -15,7 +15,7 @@ import {
 // utils
 //
 import {useState} from "react";
-import {fRoleCompany, fStatusConfirmed} from "../../../utils/formatEnum";
+import {fRoleCompany, fStatusConfirmed, getColorByStatus} from "../../../utils/formatEnum";
 import SimpleDataVisible from "../../../components/SimpleDataVisible";
 import {fDate} from "../../../utils/formatTime";
 import ProfileUpdateForm from "./ProfileUpdateForm";
@@ -85,6 +85,8 @@ export default function ProfileCard({ profile }) {
             <SimpleDataVisible
               label="Статус профиля"
               text={fStatusConfirmed(profile.status)}
+              isLabel
+              colorLabel={getColorByStatus(profile.status)}
               withDivider={false} />
           </Stack>
         </CardContent>

@@ -9,12 +9,18 @@ import Iconify from '../components/Iconify';
 //
 import API_SECURED, {URL_INFO_BUSINESS} from "../api/ApiSecured";
 import CompanyCard from "../sections/@dashboard/company/CompanyCard";
+import {useAuthState} from "../context";
 
 export default function Company() {
+  const {user} = useAuthState();
+  const isConfirmed = user.status === "CONFIRMED"
   const [isLoading, setLoading] = useState(true)
   const [companies, setCompanies] = useState([])
   const {enqueueSnackbar} = useSnackbar();
+
   useEffect(() => {
+    if (!isConfirmed) return
+
     API_SECURED.get(`${URL_INFO_BUSINESS}/company/current`)
       .then(res => {
         setCompanies(res.data)
@@ -25,6 +31,20 @@ export default function Company() {
         enqueueSnackbar(`Ошибка: ${reason}`, { variant: "error" })
       })
   }, [])
+
+  if (!isConfirmed) {
+    return (
+      <Page title="Главная | Апельсин pay">
+        <Container>
+          <Stack direction="column" alignItems="center" justifyContent="center" mt={5}>
+            <Typography variant="h4" color="warning">
+              Вы еще не подтвердили свой аккаунт
+            </Typography>
+          </Stack>
+        </Container>
+      </Page>
+    )
+  }
 
   if (isLoading) {
     return (

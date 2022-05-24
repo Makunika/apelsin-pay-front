@@ -8,7 +8,6 @@ import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Products from './pages/Products';
 import Deposit from './pages/Deposit';
-import User from './pages/User';
 import NotFound from './pages/Page404';
 import AuthGuard from "./utils/route-guard/AuthGuard";
 import GuestGuard from "./utils/route-guard/GuestGuard";
@@ -18,7 +17,7 @@ import Company from "./pages/Company";
 import CompanyDetail from "./pages/CompanyDetail";
 import CompanyNew from "./pages/CompanyNew";
 import ModeratorGuard from "./utils/route-guard/ModeratorGuard";
-import CompanyModerator from "./pages/CompanyModerator";
+import UserModerator from "./pages/UserModerator";
 import Profile from "./pages/Profile";
 
 // ----------------------------------------------------------------------
@@ -34,9 +33,6 @@ export default function Router() {
       children: [
         { path: 'app', element:
             <DashboardApp />
-        },
-        { path: 'user', element:
-            <User />
         },
         { path: 'products', element:
             <Products />
@@ -63,9 +59,9 @@ export default function Router() {
             <Profile />
         },
         {
-          path: 'moderate/company', element:
+          path: 'moderate/user', element:
             <ModeratorGuard>
-              <CompanyModerator />
+              <UserModerator />
             </ModeratorGuard>
         }
       ]

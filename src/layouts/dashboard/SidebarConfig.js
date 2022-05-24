@@ -32,9 +32,9 @@ const sidebarConfig = [
     icon: getIcon('eva:pie-chart-2-fill')
   },
   {
-    title: 'Модерация компаний',
-    path: '/dashboard/moderate/company',
-    icon: getIcon('eva:pie-chart-2-fill')
+    title: 'Модерация пользователей',
+    path: '/dashboard/moderate/user',
+    icon: getIcon('eva:people-fill')
   },
   {
     title: 'login',

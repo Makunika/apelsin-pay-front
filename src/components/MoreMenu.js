@@ -3,11 +3,19 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
-import Iconify from '../../../components/Iconify';
+import PropTypes from "prop-types";
+import Iconify from './Iconify';
 
 // ----------------------------------------------------------------------
+MoreMenu.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    icon: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
+  })).isRequired
+}
 
-export default function UserMoreMenu() {
+export default function MoreMenu({ items }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,19 +35,14 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
-
-        <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {items.map((item, index) => (
+          <MenuItem sx={{ color: 'text.secondary' }} onClick={item.onClick} key={index}>
+            <ListItemIcon>
+              <Iconify icon={item.icon} width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary={item.title} primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        ))}
       </Menu>
     </>
   );

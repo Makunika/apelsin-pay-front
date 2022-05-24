@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Card, Grid, CardContent, CardHeader, Stack} from '@mui/material';
 // utils
 //
-import {fRoleCompany, fStatusConfirmed} from "../../../utils/formatEnum";
+import {fRoleCompany, fStatusConfirmed, getColorByStatus} from "../../../utils/formatEnum";
 import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
 CompanyCardDetail.propTypes = {
@@ -19,6 +19,10 @@ export default function CompanyCardDetail({ companyUser }) {
         <CardContent>
           <Stack direction="column" justifyContent="flex-start" >
             <SimpleDataVisible
+              label="Название"
+              text={companyUser.company.name}
+              withDivider={false} />
+            <SimpleDataVisible
               label="Роль"
               text={fRoleCompany(companyUser.roleCompany)}
               withDivider={false} />
@@ -33,7 +37,9 @@ export default function CompanyCardDetail({ companyUser }) {
             <SimpleDataVisible
               label="Статус"
               text={fStatusConfirmed(companyUser.company.status)}
-              colorTitle={companyUser.company.status === "FAILED_CONFIRMED" ? "text.error" : "text.disable"}
+              colorTitle={companyUser.company.status === "FAILED_CONFIRMED" ? "error" : "text.disable"}
+              isLabel
+              colorLabel={getColorByStatus(companyUser.company.status)}
               withDivider={false} />
           </Stack>
         </CardContent>

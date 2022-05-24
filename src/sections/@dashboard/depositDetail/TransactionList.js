@@ -36,7 +36,7 @@ TransactionItemDetail.propTypes = {
 };
 
 function TransactionItemDetail({ item, isDeposit }) {
-  const { commissionRate, commissionValue, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type } = item;
+  const { commissionRate, commissionValue, ownerUsername, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type } = item;
 
   return (
     <Stack justifyContent="flex-start" direction="column">
@@ -75,6 +75,11 @@ function TransactionItemDetail({ item, isDeposit }) {
       <SimpleDataVisible
         label="Отправитель"
         // eslint-disable-next-line no-nested-ternary
+        text={ownerUsername}
+      />
+      <SimpleDataVisible
+        label="Отправитель"
+        // eslint-disable-next-line no-nested-ternary
         text={innerTo ? fNumberDeposit(toNumber) : (system ? "Система" : "Внешний")}
       />
       <SimpleDataVisible
@@ -102,7 +107,7 @@ TransactionItem.propTypes = {
 };
 
 function TransactionItem({ item, isLast, isDeposit }) {
-  const { commissionRate, commissionValue, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type } = item;
+  const { commissionRate, commissionValue, ownerUsername, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type } = item;
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -132,9 +137,13 @@ function TransactionItem({ item, isLast, isDeposit }) {
       </Dialog>
       <TimelineOppositeContent>
         <Typography variant="subtitle1">{isDeposit ? "Пополнение" : "Перевод"}</Typography>
-        {!isDeposit && toNumber != null && (
+        {!isDeposit ? (
           <Typography variant="caption" color="text.secondary">
             {fNumberDeposit(toNumber)}
+          </Typography>
+        ): (
+          <Typography variant="caption" color="text.secondary">
+            {ownerUsername}
           </Typography>
         )}
       </TimelineOppositeContent>

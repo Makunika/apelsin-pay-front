@@ -35,8 +35,8 @@ export default function ProfileUpdateForm({ profile }) {
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
       const data = {
-        passportSeries: parseInt(values.passportNumber, 10),
-        passportNumber: parseInt(values.passportSeries, 10),
+        passportNumber: values.passportNumber,
+        passportSeries: values.passportSeries,
         personInfoId: profile.id
       }
       console.log(data)

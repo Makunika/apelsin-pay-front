@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme, StyledEngineProvider } from '@mui/material/styles';
 //
+import {ruRU} from "@mui/material/locale";
 import palette from './palette';
 import typography from './typography';
 import componentsOverride from './overrides';
@@ -27,7 +28,7 @@ export default function ThemeConfig({ children }) {
     []
   );
 
-  const theme = createTheme(themeOptions);
+  const theme = createTheme(themeOptions, ruRU);
   theme.components = componentsOverride(theme);
 
   return (

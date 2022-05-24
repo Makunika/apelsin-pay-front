@@ -51,7 +51,7 @@ export default function DepositCardDetail({ deposit }) {
           </Stack>
           <InfoStyle>
             {lock && <Typography color="warning">Счет заблокирован</Typography>}
-            <Typography >{`Баланс ${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
+            <Typography style={{ fontWeight: 600 }}>{`${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
           </InfoStyle>
         </CardContent>
       </Card>

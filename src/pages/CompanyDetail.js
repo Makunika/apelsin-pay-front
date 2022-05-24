@@ -34,8 +34,12 @@ export default function CompanyDetail() {
   const location = useLocation();
   const idCompany = parseInt(location.search.substring(1), 10)
   const [isLoading, setLoading] = useState(true)
-  const [company, setCompany] = useState({})
-  const [companyUser, setCompanyUser] = useState({})
+  const [company, setCompany] = useState({
+
+  })
+  const [companyUser, setCompanyUser] = useState({
+    company: {}
+  })
   const [isNotFound, setNotFound] = useState(false)
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false)
   const [openUpdateDepositDialog, setOpenUpdateDepositDialog] = useState(false)
@@ -50,10 +54,14 @@ export default function CompanyDetail() {
     }
     API_SECURED.get(`${URL_INFO_BUSINESS}/company/current`)
       .then(res => {
+
         const cu = res.data.find(
           cu => cu.company.id === idCompany
         );
         if (!cu) {
+          setNotFound(true)
+          setLoading(false)
+          enqueueSnackbar(`Компания не найдена`, { variant: "error" })
           throw new Error("404")
         }
         setCompanyUser(cu)
@@ -82,6 +90,7 @@ export default function CompanyDetail() {
         } else {
           enqueueSnackbar(`Ошибка: ${reason}`, { variant: "error" })
         }
+        setNotFound(true)
       })
   }, [refreshAll])
 

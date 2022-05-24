@@ -53,6 +53,9 @@ export function fStatusConfirmed(status) {
   if (status === "FAILED_CONFIRMED") {
     return "Данные не подтвердились"
   }
+  if (status === "ON_CONFIRMED") {
+    return "На подтверждении"
+  }
   return status
 }
 
@@ -60,5 +63,24 @@ export function fRoleCompany(role) {
   if (role === "OWNER") {
     return "Владелец"
   }
+  if (role === "MODERATOR") {
+    return "Участник"
+  }
   return role
+}
+
+export function getColorByStatus(status) {
+  if (status === "CONFIRMED") {
+    return "success"
+  }
+  if (status === "NOT_CONFIRMED") {
+    return "warning"
+  }
+  if (status === "FAILED_CONFIRMED") {
+    return "error"
+  }
+  if (status === "ON_CONFIRMED") {
+    return "primary"
+  }
+  return 'primary'
 }

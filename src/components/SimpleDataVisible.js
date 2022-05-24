@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import {Box, Button, Divider, Typography} from "@mui/material";
+import {Box, Button, Divider, Stack, Typography} from "@mui/material";
+import Label from "./Label";
 
 SimpleDataVisible.propTypes = {
   label: PropTypes.string.isRequired,
@@ -11,7 +12,17 @@ SimpleDataVisible.propTypes = {
   ),
   withButton: PropTypes.bool,
   onClick: PropTypes.func,
-  titleButton: PropTypes.any
+  titleButton: PropTypes.any,
+  isLabel: PropTypes.bool,
+  colorLabel: PropTypes.oneOf([
+    'default',
+    'primary',
+    'secondary',
+    'info',
+    'success',
+    'warning',
+    'error'
+  ]),
 }
 
 export default function SimpleDataVisible({
@@ -23,21 +34,35 @@ export default function SimpleDataVisible({
                                             withButton = false,
                                             onClick,
                                             titleButton,
+                                            isLabel = false,
+                                            colorLabel
 }) {
   return (
     <Box mb={mb} >
-      <Typography variant="caption" color={colorTitle}>{label}</Typography>
-      <Typography variant="body1">{text}</Typography>
-      {withButton && (
-        <Button color="secondary"
-                onClick={onClick}
-        >
-          {titleButton}
-        </Button>
-      )}
-      {withDivider && (
-        <Divider />
-      )}
+      <Stack direction="column" >
+        <Typography variant="caption" color={colorTitle}>{label}</Typography>
+
+        {isLabel ? (
+          <Label color={colorLabel} sx={{ maxWidth: "150px"}}>
+            {text}
+          </Label>
+        ) : (
+          <Typography variant="body1">
+            {text}
+          </Typography>
+        )}
+
+        {withButton && (
+          <Button color="secondary"
+                  onClick={onClick}
+          >
+            {titleButton}
+          </Button>
+        )}
+        {withDivider && (
+          <Divider />
+        )}
+      </Stack>
     </Box>
   )
 }

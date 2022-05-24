@@ -67,7 +67,7 @@ export default function DepositCard({ deposit, index }) {
           <SimpleDataVisible label="Номер счета" text={fNumberDeposit(number)} />
           <InfoStyle>
             {lock && <Typography color="warning">Счет заблокирован</Typography>}
-            <Typography>{`${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
+            <Typography style={{ fontWeight: 600 }} >{`${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
           </InfoStyle>
         </CardContent>
       </Card>
