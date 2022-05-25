@@ -221,9 +221,6 @@ function TransactionOpenForm({ refresh, number }) {
             {...getFieldProps('money')}
             error={Boolean(touched.money && errors.money)}
             helperText={touched.money && errors.money}
-            onBlur={() => {
-              console.log("Хехе")
-            }}
           />
 
           <TextField

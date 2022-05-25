@@ -1,6 +1,6 @@
 import {useLocation, useNavigate} from 'react-router-dom';
 // material
-import {Container, Stack, Typography, CircularProgress, Box} from '@mui/material';
+import {Container, Stack, Typography, CircularProgress, Box, Grid} from '@mui/material';
 // components
 import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
@@ -27,7 +27,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
   const {enqueueSnackbar} = useSnackbar();
 
   useEffect(() => {
-    API_SECURED.get(`${URL_ACCOUNT_BUSINESS}api/business/type`)
+    API_SECURED.get(`${URL_ACCOUNT_BUSINESS}api/business/type/valid`)
       .then(res => {
         setTypes(res.data)
         setLoading(false)
@@ -105,7 +105,7 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
                                description={updateInfo.type.description}
                                type={fillTypeDataBusiness(updateInfo.type)}
                                showTitle
-                               defaultExpanded
+                               useAccordion={false}
             />
           </Stack>
         </div>
@@ -115,22 +115,23 @@ export default function CompanyDepositNewOrUpdateForm({ companyUser, updateInfo 
           Выберите тип счета
         </Typography>
       </Stack>
-      <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
+      <Grid container spacing={3}>
         {filterTypes.map((value, index) => (
-          <DepositTypeDetail
-            key={value.id}
-            name={value.name}
-            description={value.description}
-            type={fillTypeDataBusiness(value)}
-            handleButton={updateInfo == null ? handleNew : handleUpdate}
-            titleButton="Выбрать"
-            showTitle={false}
-            defaultExpanded
-            valid={value.valid}
-            typeReturned={value}
-          />
+          <Grid item key={index} xs={12} md={6} >
+            <DepositTypeDetail
+              name={value.name}
+              description={value.description}
+              type={fillTypeDataBusiness(value)}
+              handleButton={updateInfo == null ? handleNew : handleUpdate}
+              titleButton="Выбрать"
+              showTitle={false}
+              valid={value.valid}
+              typeReturned={value}
+              useAccordion={false}
+            />
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
     </Container>
   );
 }

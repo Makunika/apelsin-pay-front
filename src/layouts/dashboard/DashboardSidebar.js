@@ -46,7 +46,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     })
 
   const resultConfig = filterSidebar(sidebarConfig)
-  console.log(resultConfig)
 
   const isDesktop = useResponsive('up', 'lg');
 

@@ -89,22 +89,24 @@ export default function DepositNew() {
             Выберите тип счета
           </Typography>
         </Stack>
-        <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
+        <Grid container spacing={3} alignItems="flex-start">
           {types.map((value, index) => (
-            <DepositTypeDetail
-              key={value.id}
-              name={value.name}
-              description={value.description}
-              type={fillTypeDataPersonal(value)}
-              handleButton={handleNew}
-              titleButton="Выбрать"
-              showTitle={false}
-              defaultExpanded
-              valid={value.valid}
-              typeReturned={value}
-            />
+            <Grid item xs={12} sm={6} >
+              <DepositTypeDetail
+                key={value.id}
+                name={value.name}
+                description={value.description}
+                type={fillTypeDataPersonal(value)}
+                handleButton={handleNew}
+                titleButton="Выбрать"
+                showTitle={false}
+                valid={value.valid}
+                typeReturned={value}
+                useAccordion={false}
+              />
+            </Grid>
           ))}
-        </Stack>
+        </Grid>
       </Container>
     </Page>
   );

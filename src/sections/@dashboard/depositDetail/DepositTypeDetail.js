@@ -12,6 +12,7 @@ import {
 import {LoadingButton} from "@mui/lab";
 //
 import SimpleAccordion from "../../../components/SimpleAccordion";
+import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
 const InfoStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -35,10 +36,11 @@ DepositTypeDetail.propTypes = {
   description: PropTypes.string.isRequired,
   valid: PropTypes.bool.isRequired,
   sx: PropTypes.object,
-  typeReturned: PropTypes.object
+  typeReturned: PropTypes.object,
+  useAccordion: PropTypes.bool
 };
 
-export default function DepositTypeDetail({ loading, type, name, description, valid, showTitle, titleButton, handleButton, defaultExpanded, sx, typeReturned }) {
+export default function DepositTypeDetail({ loading, type, name, description, valid, showTitle, titleButton, handleButton, defaultExpanded, sx, typeReturned, useAccordion = true }) {
   return (
     <Card
       sx={{ ...sx }}>
@@ -54,9 +56,12 @@ export default function DepositTypeDetail({ loading, type, name, description, va
           {`${description}`}
         </Typography>
 
-        {type.map((value, index) =>
-          <SimpleAccordion key={index} title={value.description} body={value.value} defaultExpanded={defaultExpanded} />
-        )}
+        {type.map((value, index) => {
+          if (useAccordion) {
+            return <SimpleAccordion key={index} title={value.description} body={value.value} defaultExpanded={defaultExpanded} />
+          }
+          return <SimpleDataVisible key={index} label={value.description} text={value.value} />
+        })}
 
         <InfoStyle>
           {!valid && <Typography color="warning">Архивный</Typography>}

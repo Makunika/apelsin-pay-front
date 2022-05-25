@@ -41,6 +41,10 @@ const sidebarConfig = [
         title: 'Компании',
         path: '/dashboard/moderate/company'
       },
+      {
+        title: 'Типы счетов',
+        path: '/dashboard/moderate/type'
+      },
     ]
   },
 ];

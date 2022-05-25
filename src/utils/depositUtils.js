@@ -16,7 +16,7 @@ export const fillTypeDataPersonal = (value) => {
     },
   ]
 
-  if (value.maxSumToStartWork != null) {
+  if (value.minSumToStartWork != null) {
     typeData.push({
       description: "Минимальная сумма для активации счета",
       value: `${value.minSumToStartWork} ${fCurrencyByEnum(value.currency).label}`

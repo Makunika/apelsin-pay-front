@@ -20,6 +20,7 @@ import ModeratorGuard from "./utils/route-guard/ModeratorGuard";
 import UserModerator from "./pages/UserModerator";
 import Profile from "./pages/Profile";
 import CompanyModerator from "./pages/CompanyModerator";
+import TypeModerate from "./pages/TypeModerate";
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +67,12 @@ export default function Router() {
           path: 'moderate/company', element:
             <ModeratorGuard>
               <CompanyModerator />
+            </ModeratorGuard>
+        },
+        {
+          path: 'moderate/type', element:
+            <ModeratorGuard>
+              <TypeModerate />
             </ModeratorGuard>
         }
       ]
