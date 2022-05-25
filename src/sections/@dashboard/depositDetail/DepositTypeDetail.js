@@ -40,41 +40,38 @@ DepositTypeDetail.propTypes = {
 
 export default function DepositTypeDetail({ loading, type, name, description, valid, showTitle, titleButton, handleButton, defaultExpanded, sx, typeReturned }) {
   return (
-    <Grid item xs={12} sm={6} md={6} padding={1}>
-      <Card
-        sx={{ ...sx }}
-      >
-        {showTitle && (
-          <CardHeader title="Информация о типе счете" />
+    <Card
+      sx={{ ...sx }}>
+      {showTitle && (
+        <CardHeader title="Информация о типе счете" />
+      )}
+      <CardContent>
+
+        <Typography variant="h6">
+          {`${name}`}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          {`${description}`}
+        </Typography>
+
+        {type.map((value, index) =>
+          <SimpleAccordion key={index} title={value.description} body={value.value} defaultExpanded={defaultExpanded} />
         )}
-        <CardContent>
 
-          <Typography variant="h6">
-            {`${name}`}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            {`${description}`}
-          </Typography>
-
-          {type.map((value, index) =>
-            <SimpleAccordion key={index} title={value.description} body={value.value} defaultExpanded={defaultExpanded} />
+        <InfoStyle>
+          {!valid && <Typography color="warning">Архивный</Typography>}
+          {handleButton && (
+            <LoadingButton
+              loading={loading}
+              onClick={() => {
+                handleButton(typeReturned)
+              }}
+            >
+              {titleButton}
+            </LoadingButton>
           )}
-
-          <InfoStyle>
-            {!valid && <Typography color="warning">Архивный</Typography>}
-            {handleButton && (
-                <LoadingButton
-                  loading={loading}
-                  onClick={() => {
-                    handleButton(typeReturned)
-                  }}
-                >
-                  {titleButton}
-                </LoadingButton>
-            )}
-          </InfoStyle>
-        </CardContent>
-      </Card>
-    </Grid>
+        </InfoStyle>
+      </CardContent>
+    </Card>
   );
 }

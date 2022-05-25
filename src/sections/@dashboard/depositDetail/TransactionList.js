@@ -79,12 +79,12 @@ function TransactionItemDetail({ item, isDeposit }) {
       />
       <SimpleDataVisible
         label="Отправитель"
-        // eslint-disable-next-line no-nested-ternary
-        text={innerTo ? fNumberDeposit(toNumber) : (system ? "Система" : "Внешний")}
+        text={innerFrom ? fNumberDeposit(fromNumber) : "Внешний"}
       />
       <SimpleDataVisible
         label="Получатель"
-        text={innerFrom ? fNumberDeposit(fromNumber) : "Внешний"}
+        // eslint-disable-next-line no-nested-ternary
+        text={innerTo ? fNumberDeposit(toNumber) : (system ? "Система" : "Внешний")}
       />
       <SimpleDataVisible
         label="Комиссия в процентах для отправителя"
@@ -139,7 +139,7 @@ function TransactionItem({ item, isLast, isDeposit }) {
         <Typography variant="subtitle1">{isDeposit ? "Пополнение" : "Перевод"}</Typography>
         {!isDeposit ? (
           <Typography variant="caption" color="text.secondary">
-            {fNumberDeposit(toNumber)}
+            {toNumber ? fNumberDeposit(toNumber) : "Вывод средств"}
           </Typography>
         ): (
           <Typography variant="caption" color="text.secondary">
@@ -210,35 +210,33 @@ export default function TransactionList({ refreshState, refresh, number }) {
   }
 
   return (
-    <Grid item xs={12} sm={6} md={6} padding={1}>
-      <Card>
-        <CardHeader title="Операции" />
-        <CardContent>
-          {transactions.length === 0 ? (
-            <Typography variant="body2" color="text.disabled" >
-              Нет операций
-            </Typography>
-          ) : (
-            <div>
-              <Timeline>
-                {transactions.map((item, index) => (
-                  <TransactionItem
-                    key={item.id}
-                    item={item}
-                    isLast={index === transactions.length - 1 && page.number === page.max - 1}
-                    isDeposit={item.fromNumber !== number}/>
-                ))}
-              </Timeline>
-              {page.number !== page.max - 1 && (
-                <Button onClick={() => loadNewTransactions(page.number + 1)}>
-                  Еще...
-                </Button>
-              )}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </Grid>
+    <Card>
+      <CardHeader title="Операции" />
+      <CardContent>
+        {transactions.length === 0 ? (
+          <Typography variant="body2" color="text.disabled" >
+            Нет операций
+          </Typography>
+        ) : (
+          <div>
+            <Timeline>
+              {transactions.map((item, index) => (
+                <TransactionItem
+                  key={item.id}
+                  item={item}
+                  isLast={index === transactions.length - 1 && page.number === page.max - 1}
+                  isDeposit={item.fromNumber !== number}/>
+              ))}
+            </Timeline>
+            {page.number !== page.max - 1 && (
+              <Button onClick={() => loadNewTransactions(page.number + 1)}>
+                Еще...
+              </Button>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

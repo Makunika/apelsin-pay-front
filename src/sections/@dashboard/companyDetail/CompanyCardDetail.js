@@ -13,37 +13,35 @@ CompanyCardDetail.propTypes = {
 export default function CompanyCardDetail({ companyUser }) {
 
   return (
-    <Grid item xs={12} sm={12} md={12} padding={1}>
-      <Card >
-        <CardHeader title="Информация о компании" />
-        <CardContent>
-          <Stack direction="column" justifyContent="flex-start" >
-            <SimpleDataVisible
-              label="Название"
-              text={companyUser.company.name}
-              withDivider={false} />
-            <SimpleDataVisible
-              label="Роль"
-              text={fRoleCompany(companyUser.roleCompany)}
-              withDivider={false} />
-            <SimpleDataVisible
-              label="ИНН"
-              text={companyUser.company.inn}
-              withDivider={false} />
-            <SimpleDataVisible
-              label="Адрес"
-              text={companyUser.company.address}
-              withDivider={false} />
-            <SimpleDataVisible
-              label="Статус"
-              text={fStatusConfirmed(companyUser.company.status)}
-              colorTitle={companyUser.company.status === "FAILED_CONFIRMED" ? "error" : "text.disable"}
-              isLabel
-              colorLabel={getColorByStatus(companyUser.company.status)}
-              withDivider={false} />
-          </Stack>
-        </CardContent>
-      </Card>
-    </Grid>
+    <Card >
+      <CardHeader title="Информация о компании" />
+      <CardContent>
+        <Stack direction="column" justifyContent="flex-start" >
+          <SimpleDataVisible
+            label="Название"
+            text={companyUser.company.name}
+            withDivider={false} />
+          <SimpleDataVisible
+            label="Роль"
+            text={fRoleCompany(companyUser.roleCompany)}
+            withDivider={false} />
+          <SimpleDataVisible
+            label="ИНН"
+            text={companyUser.company.inn}
+            withDivider={false} />
+          <SimpleDataVisible
+            label="Адрес"
+            text={companyUser.company.address}
+            withDivider={false} />
+          <SimpleDataVisible
+            label="Статус"
+            text={fStatusConfirmed(companyUser.company.status)}
+            colorTitle={companyUser.company.status === "FAILED_CONFIRMED" ? "error" : "text.disable"}
+            isLabel
+            colorLabel={getColorByStatus(companyUser.company.status)}
+            withDivider={false} />
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }

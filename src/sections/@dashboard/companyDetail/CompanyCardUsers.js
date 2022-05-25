@@ -101,7 +101,7 @@ export default function CompanyCardUsers({ companyUser, refresh, refreshState })
   }
 
   return (
-    <Grid item xs={12} sm={6} md={6} padding={1}>
+    <div>
       <Dialog
         open={isShowing}
         onClose={() => setShowing(false)}
@@ -149,6 +149,6 @@ export default function CompanyCardUsers({ companyUser, refresh, refreshState })
           </Stack>
         </CardContent>
       </Card>
-    </Grid>
+    </div>
   );
 }

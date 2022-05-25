@@ -129,13 +129,17 @@ function TransactionOpenForm({ refresh, number }) {
         data
       ).then(res => {
         console.log(res)
+        if (res.data.nameTo == null) {
+          enqueueSnackbar("Счет получателя с таким номером не найден", {variant: "warning"})
+          return
+        }
         setAccountInfo(res.data)
         setOpenDialog(true)
       },
       reason => {
         console.log(reason)
         if (reason.response.status === 404) {
-          enqueueSnackbar("Счет с таким номером не найден", {variant: "error"})
+          enqueueSnackbar("Счет с таким номером не найден", {variant: "warning"})
         } else {
           enqueueSnackbar(reason.response.data.message, {variant: "error"})
         }
@@ -261,13 +265,11 @@ TransactionOpen.propTypes = {
 
 export default function TransactionOpen({ number, refreshState, refresh }) {
   return (
-    <Grid item xs={12} sm={6} md={6} padding={1} id="transactionOpen">
-      <Card>
-        <CardHeader title="Перевести деньги" />
-        <CardContent>
-          <TransactionOpenForm refresh={refresh} number={number} />
-        </CardContent>
-      </Card>
-    </Grid>
+    <Card>
+      <CardHeader title="Перевести деньги" />
+      <CardContent>
+        <TransactionOpenForm refresh={refresh} number={number} />
+      </CardContent>
+    </Card>
   );
 }

@@ -1,4 +1,4 @@
-import {Link as RouterLink, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 // material
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Breadcrumbs,
   Link,
   Dialog,
-  DialogTitle, DialogContent, IconButton, DialogActions, Box
+  DialogTitle, DialogContent, IconButton, DialogActions, Box, Grid
 } from '@mui/material';
 // components
 import {useEffect, useState} from "react";
@@ -17,18 +17,20 @@ import {useSnackbar} from "notistack";
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
 //
-import API_SECURED, {URL_ACCOUNT_BUSINESS, URL_ACCOUNT_PERSONAL, URL_INFO_BUSINESS} from "../api/ApiSecured";
+import API_SECURED, {URL_ACCOUNT_BUSINESS, URL_INFO_BUSINESS} from "../api/ApiSecured";
 import Section404 from "../sections/404/Section404";
 import CompanyCardDetail from "../sections/@dashboard/companyDetail/CompanyCardDetail";
 import CompanyForm from "../sections/@dashboard/companyDetail/CompanyForm";
 import CompanyCardApiKey from "../sections/@dashboard/companyDetail/CompanyCardApiKey";
 import {isConfirmed, isOwner} from "../utils/companyUtils";
-import {DepositCardDetail} from "../sections/@dashboard/depositDetail";
 import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeDetail";
 import {fillTypeDataBusiness} from "../utils/depositUtils";
 import CompanyDepositNewOrUpdateForm from "../sections/@dashboard/companyDetail/CompanyDepositNewOrUpdateForm";
 import CompanyCardUsers from "../sections/@dashboard/companyDetail/CompanyCardUsers";
 import TransactionList from "../sections/@dashboard/depositDetail/TransactionList";
+import {BUSINESS_TYPE} from "../utils/formatEnum";
+import DepositCardDetail from "../sections/@dashboard/depositDetail/DepositCardDetail";
+import TransactionPayout from "../sections/@dashboard/depositDetail/TransactionPayout";
 
 export default function CompanyDetail() {
   const location = useLocation();
@@ -208,28 +210,53 @@ export default function CompanyDetail() {
             </Button>
           </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
-          <CompanyCardDetail companyUser={companyUser} />
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <CompanyCardDetail companyUser={companyUser} />
+          </Grid>
           {deposit.deposit != null && (
-            <DepositCardDetail deposit={deposit.deposit} />
+            <Grid item xs={12} sm={6}>
+              <DepositCardDetail
+                deposit={deposit.deposit}
+                type={BUSINESS_TYPE}
+                refresh={setRefreshAll}
+              />
+            </Grid>
           )}
-          <CompanyCardApiKey companyUser={companyUser} />
+          <Grid item xs={12} sm={6}>
+            <CompanyCardApiKey companyUser={companyUser} />
+          </Grid>
           {deposit.type != null && (
-            <DepositTypeDetail valid={deposit.type.valid}
-                               name={deposit.type.name}
-                               description={deposit.type.description}
-                               type={fillTypeDataBusiness(deposit.type)}
-                               showTitle
+            <Grid item xs={12} sm={6}>
+              <DepositTypeDetail valid={deposit.type.valid}
+                                 name={deposit.type.name}
+                                 description={deposit.type.description}
+                                 type={fillTypeDataBusiness(deposit.type)}
+                                 showTitle
+              />
+            </Grid>
+          )}
+          {deposit.type != null && (
+            <Grid item xs={12} sm={6}>
+              <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+            </Grid>
+          )}
+          <Grid item xs={12} sm={6}>
+            <CompanyCardUsers companyUser={companyUser}
+                              refresh={setRefreshAll}
+                              refreshState={refreshAll}
             />
+          </Grid>
+          {deposit.deposit != null && (
+            <Grid item xs={12} sm={6}>
+              <TransactionPayout
+                number={deposit.deposit.number}
+                refresh={setRefreshAll}
+                commission={deposit.type.commissionRateWithdraw == null ? 0 : deposit.type.commissionRateWithdraw}
+              />
+            </Grid>
           )}
-          {deposit.type != null && (
-            <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
-          )}
-          <CompanyCardUsers companyUser={companyUser}
-                            refresh={setRefreshAll}
-                            refreshState={refreshAll}
-          />
-        </Stack>
+        </Grid>
       </Container>
     </Page>
   );

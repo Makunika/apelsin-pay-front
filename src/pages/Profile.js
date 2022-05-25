@@ -1,37 +1,19 @@
-import {Link as RouterLink, useLocation} from 'react-router-dom';
 // material
 import {
   Button,
   Container,
   Stack,
   Typography,
-  CircularProgress,
-  Breadcrumbs,
-  Link,
-  Dialog,
-  DialogTitle, DialogContent, IconButton, DialogActions, Box
+  CircularProgress
 } from '@mui/material';
 // components
 import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
 import Page from '../components/Page';
-import Iconify from '../components/Iconify';
 //
 import API_SECURED, {
-  URL_ACCOUNT_BUSINESS,
-  URL_ACCOUNT_PERSONAL,
-  URL_INFO_BUSINESS,
   URL_INFO_PERSONAL
 } from "../api/ApiSecured";
-import Section404 from "../sections/404/Section404";
-import CompanyCardDetail from "../sections/@dashboard/companyDetail/CompanyCardDetail";
-import CompanyForm from "../sections/@dashboard/companyDetail/CompanyForm";
-import CompanyCardApiKey from "../sections/@dashboard/companyDetail/CompanyCardApiKey";
-import {isConfirmed, isOwner} from "../utils/companyUtils";
-import {DepositCardDetail} from "../sections/@dashboard/depositDetail";
-import DepositTypeDetail from "../sections/@dashboard/depositDetail/DepositTypeDetail";
-import {fillTypeDataBusiness} from "../utils/depositUtils";
-import CompanyDepositNewOrUpdateForm from "../sections/@dashboard/companyDetail/CompanyDepositNewOrUpdateForm";
 import ProfileCard from "../sections/@dashboard/profile/ProfileCard";
 
 export default function Profile() {

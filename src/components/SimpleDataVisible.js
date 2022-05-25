@@ -43,7 +43,7 @@ export default function SimpleDataVisible({
         <Typography variant="caption" color={colorTitle}>{label}</Typography>
 
         {isLabel ? (
-          <Label color={colorLabel} sx={{ maxWidth: "150px"}}>
+          <Label color={colorLabel} sx={{ maxWidth: "200px"}}>
             {text}
           </Label>
         ) : (

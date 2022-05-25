@@ -39,22 +39,8 @@ export default function DepositCard({ deposit, index }) {
 
   return (
     <Grid item xs={12} sm={6} md={3}>
-      <Card sx={{
-        position: 'relative',
-        ...((lock) && {
-          '&:after': {
-            top: 0,
-            content: "''",
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            bgcolor: (theme) => alpha(theme.palette.grey[900], 0.3)
-          }
-        })
-      }}>
-
-        <CardContent
-        >
+      <Card>
+        <CardContent>
           <TitleStyle
             to={`/dashboard/deposit?${number}`}
             color="inherit"
@@ -65,8 +51,8 @@ export default function DepositCard({ deposit, index }) {
             {typeName}
           </TitleStyle>
           <SimpleDataVisible label="Номер счета" text={fNumberDeposit(number)} />
+          {lock && <Typography color="warning">Счет заблокирован</Typography>}
           <InfoStyle>
-            {lock && <Typography color="warning">Счет заблокирован</Typography>}
             <Typography style={{ fontWeight: 600 }} >{`${balance} ${fCurrencyByEnum(currency).label}`}</Typography>
           </InfoStyle>
         </CardContent>

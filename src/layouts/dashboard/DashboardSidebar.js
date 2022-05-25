@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
+import { Box, Link, Drawer, Typography} from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
@@ -37,6 +37,16 @@ DashboardSidebar.propTypes = {
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
   const { user } = useAuthState();
+
+  const filterSidebar = (sidebarConfig) => sidebarConfig.filter(config => {
+      if (config.authorities) {
+        return config.authorities.every(test => test(user))
+      } 
+      return true
+    })
+
+  const resultConfig = filterSidebar(sidebarConfig)
+  console.log(resultConfig)
 
   const isDesktop = useResponsive('up', 'lg');
 
@@ -73,7 +83,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection navConfig={resultConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

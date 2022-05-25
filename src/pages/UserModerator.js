@@ -6,8 +6,8 @@ import {
   Typography, CardHeader, Divider, Box
 } from '@mui/material';
 import Page from '../components/Page';
-import UserConfirmedTable from "../sections/@dashboard/user/UserConfirmedTable";
-import UserAllTable from "../sections/@dashboard/user/UserAllTable";
+import UserConfirmedTable from "../sections/@dashboard/userModerate/UserConfirmedTable";
+import UserAllTable from "../sections/@dashboard/userModerate/UserAllTable";
 
 
 // function CustomApplySortFilter(array, comparator, query) {

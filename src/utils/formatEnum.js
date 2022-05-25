@@ -16,6 +16,9 @@ export const currencies = [
   }
 ];
 
+export const BUSINESS_TYPE = "business_type";
+export const PERSONAL_TYPE = "personal_type";
+
 export function fCurrencyByEnum(enumStr) {
   return currencies.find(value => value.value === enumStr);
 }
@@ -80,7 +83,7 @@ export function getColorByStatus(status) {
     return "error"
   }
   if (status === "ON_CONFIRMED") {
-    return "primary"
+    return "warning"
   }
   return 'primary'
 }

@@ -22,7 +22,7 @@ export default function CompanyCardApiKey({ companyUser }) {
 
   const showApiKey = () => {
     setLoading(true)
-    apiSecured.get(`${URL_INFO_BUSINESS}company/${companyUser.company.id}/key`)
+    apiSecured.get(`${URL_INFO_BUSINESS}company/${companyUser.company.id}/api/key`)
       .then(res => {
         setApiKey(res.data)
         setShowing(true)
@@ -35,7 +35,7 @@ export default function CompanyCardApiKey({ companyUser }) {
   }
 
   const regenerateApiKey = () => {
-    apiSecured.post(`${URL_INFO_BUSINESS}company/${companyUser.company.id}/regenerate/key`)
+    apiSecured.post(`${URL_INFO_BUSINESS}company/${companyUser.company.id}/api/regenerate/key`)
       .then(res => {
         setApiKey('***************')
         setShowing(false)
@@ -48,54 +48,52 @@ export default function CompanyCardApiKey({ companyUser }) {
   }
 
   return (
-    <Grid item xs={12} sm={6} md={6} padding={1}>
-      <Card >
-        <CardHeader title="API" />
-        <CardContent>
-          {!isConfirmed(companyUser) && (
-            <Typography color="text.disable" >
-              Необходимо подтверждение компании
-            </Typography>
-          )}
-          {isConfirmed(companyUser) && (
-            <Stack direction="column" justifyContent="flex-start" spacing={2}>
-              <SimpleDataVisible
-                label="API ключ"
-                text={apiKey}
-                withDivider={false} />
+    <Card >
+      <CardHeader title="API" />
+      <CardContent>
+        {!isConfirmed(companyUser) && (
+          <Typography color="text.disable" >
+            Необходимо подтверждение компании
+          </Typography>
+        )}
+        {isConfirmed(companyUser) && (
+          <Stack direction="column" justifyContent="flex-start" spacing={2}>
+            <SimpleDataVisible
+              label="API ключ"
+              text={apiKey}
+              withDivider={false} />
 
-              {!isShowing && (
-                <LoadingButton
-                  variant="contained"
-                  onClick={showApiKey}
-                  loading={isLoading}
-                >
-                  Показать API ключ
-                </LoadingButton>
-              )}
-              {isShowing && (
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    setApiKey('***************')
-                    setShowing(false)
-                  }}
-                >
-                  Скрыть
-                </Button>
-              )}
-              {isOwner(companyUser) && (
-                <LoadingButton
-                  onClick={regenerateApiKey}
-                  loading={isLoading}
-                >
-                  Перегенерировать API ключ
-                </LoadingButton>
-              )}
-            </Stack>
-          )}
-        </CardContent>
-      </Card>
-    </Grid>
+            {!isShowing && (
+              <LoadingButton
+                variant="contained"
+                onClick={showApiKey}
+                loading={isLoading}
+              >
+                Показать API ключ
+              </LoadingButton>
+            )}
+            {isShowing && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setApiKey('***************')
+                  setShowing(false)
+                }}
+              >
+                Скрыть
+              </Button>
+            )}
+            {isOwner(companyUser) && (
+              <LoadingButton
+                onClick={regenerateApiKey}
+                loading={isLoading}
+              >
+                Перегенерировать API ключ
+              </LoadingButton>
+            )}
+          </Stack>
+        )}
+      </CardContent>
+    </Card>
   );
 }

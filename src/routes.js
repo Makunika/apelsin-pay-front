@@ -19,6 +19,7 @@ import CompanyNew from "./pages/CompanyNew";
 import ModeratorGuard from "./utils/route-guard/ModeratorGuard";
 import UserModerator from "./pages/UserModerator";
 import Profile from "./pages/Profile";
+import CompanyModerator from "./pages/CompanyModerator";
 
 // ----------------------------------------------------------------------
 
@@ -33,9 +34,6 @@ export default function Router() {
       children: [
         { path: 'app', element:
             <DashboardApp />
-        },
-        { path: 'products', element:
-            <Products />
         },
         { path: 'blog', element:
             <Deposit />
@@ -62,6 +60,12 @@ export default function Router() {
           path: 'moderate/user', element:
             <ModeratorGuard>
               <UserModerator />
+            </ModeratorGuard>
+        },
+        {
+          path: 'moderate/company', element:
+            <ModeratorGuard>
+              <CompanyModerator />
             </ModeratorGuard>
         }
       ]

@@ -1,6 +1,6 @@
 import {Link as RouterLink, useLocation, useNavigate} from 'react-router-dom';
 // material
-import {Button, Container, Stack, Typography, CircularProgress, Breadcrumbs, Link} from '@mui/material';
+import {Button, Container, Stack, Typography, CircularProgress, Breadcrumbs, Link, Grid} from '@mui/material';
 // components
 import {useEffect, useState} from "react";
 import {useSnackbar} from "notistack";
@@ -15,6 +15,8 @@ import TransactionOpen from "../sections/@dashboard/depositDetail/TransactionOpe
 import TransactionList from "../sections/@dashboard/depositDetail/TransactionList";
 import Section404 from "../sections/404/Section404";
 import {fillTypeDataPersonal} from "../utils/depositUtils";
+import {PERSONAL_TYPE} from "../utils/formatEnum";
+import TransactionPayout from "../sections/@dashboard/depositDetail/TransactionPayout";
 
 export default function DepositDetail() {
     const [isLoading, setLoading] = useState(true)
@@ -95,17 +97,32 @@ export default function DepositDetail() {
                         Открыть новый счет
                     </Button>
                 </Stack>
-                <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
-                    <DepositCardDetail deposit={deposit.deposit} />
-                    <DepositTypeDetail showTitle
-                                       type={fillTypeDataPersonal(deposit.type)}
-                                       name={deposit.type.name}
-                                       description={deposit.type.description}
-                                       valid={deposit.type.valid}
-                    />
-                    <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
-                    <TransactionOpen refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
-                </Stack>
+                <Grid container spacing={3} alignItems="flex-start">
+                    <Grid item xs={12}>
+                        <DepositCardDetail
+                          deposit={deposit.deposit}
+                          type={PERSONAL_TYPE}
+                          refresh={setRefreshAll}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TransactionOpen refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <DepositTypeDetail showTitle
+                                           type={fillTypeDataPersonal(deposit.type)}
+                                           name={deposit.type.name}
+                                           description={deposit.type.description}
+                                           valid={deposit.type.valid}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TransactionPayout number={deposit.deposit.number} refresh={setRefreshAll} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+                    </Grid>
+                </Grid>
             </Container>
         </Page>
     );

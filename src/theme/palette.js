@@ -80,7 +80,7 @@ const WARNING = {
 const ERROR = {
   lighter: '#FFE7D9',
   light: '#FFA48D',
-  main: '#FF4842',
+  main: '#fd2d26',
   dark: '#B72136',
   darker: '#7A0C2E',
   contrastText: '#fff'

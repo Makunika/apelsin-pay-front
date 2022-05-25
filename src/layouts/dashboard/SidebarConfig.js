@@ -1,5 +1,6 @@
 // component
 import Iconify from '../../components/Iconify';
+import {isModerator} from "../../utils/userUtils";
 
 // ----------------------------------------------------------------------
 
@@ -14,17 +15,13 @@ const sidebarConfig = [
   {
     title: 'Профиль',
     path: '/dashboard/profile',
-    icon: getIcon('eva:people-fill')
-  },
-  {
-    title: 'product',
-    path: '/dashboard/products',
-    icon: getIcon('eva:shopping-bag-fill')
+    icon: getIcon('eva:person-fill'),
+
   },
   {
     title: 'Счета',
     path: '/dashboard/blog',
-    icon: getIcon('eva:file-text-fill')
+    icon: getIcon('eva:credit-card-fill')
   },
   {
     title: 'Компании',
@@ -32,25 +29,20 @@ const sidebarConfig = [
     icon: getIcon('eva:pie-chart-2-fill')
   },
   {
-    title: 'Модерация пользователей',
-    path: '/dashboard/moderate/user',
-    icon: getIcon('eva:people-fill')
+    title: 'Модерация',
+    authorities: [isModerator],
+    icon: getIcon('eva:briefcase-fill'),
+    children: [
+      {
+        title: 'Пользователи',
+        path: '/dashboard/moderate/user'
+      },
+      {
+        title: 'Компании',
+        path: '/dashboard/moderate/company'
+      },
+    ]
   },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon('eva:lock-fill')
-  },
-  {
-    title: 'register',
-    path: '/register',
-    icon: getIcon('eva:person-add-fill')
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon('eva:alert-triangle-fill')
-  }
 ];
 
 export default sidebarConfig;
