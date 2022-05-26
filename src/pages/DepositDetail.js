@@ -17,6 +17,7 @@ import Section404 from "../sections/404/Section404";
 import {fillTypeDataPersonal} from "../utils/depositUtils";
 import {PERSONAL_TYPE} from "../utils/formatEnum";
 import TransactionPayout from "../sections/@dashboard/depositDetail/TransactionPayout";
+import TransactionDeposit from "../sections/@dashboard/depositDetail/TransactionDeposit";
 
 export default function DepositDetail() {
     const [isLoading, setLoading] = useState(true)
@@ -79,7 +80,7 @@ export default function DepositDetail() {
         <Page title="Cчета | Апельсин pay">
             <Container>
                 <Breadcrumbs aria-label="breadcrumb" mb={5}>
-                    <Link underline="hover" color="inherit" href="/dashboard/blog" >
+                    <Link underline="hover" color="inherit" href="/dashboard/deposits" >
                         Счета
                     </Link>
                     <Typography color="text.primary">{fNumberDeposit(deposit.deposit.number)}</Typography>
@@ -117,10 +118,13 @@ export default function DepositDetail() {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TransactionPayout number={deposit.deposit.number} refresh={setRefreshAll} />
+                        <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TransactionList refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+                        <TransactionDeposit refreshState={refreshAll} refresh={setRefreshAll} number={deposit.deposit.number} />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TransactionPayout number={deposit.deposit.number} refresh={setRefreshAll} />
                     </Grid>
                 </Grid>
             </Container>

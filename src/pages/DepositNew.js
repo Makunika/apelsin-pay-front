@@ -57,7 +57,7 @@ export default function DepositNew() {
       <Page>
         <Container>
           <Breadcrumbs aria-label="breadcrumb" mb={5}>
-            <Link underline="hover" color="inherit" href="/dashboard/blog" >
+            <Link underline="hover" color="inherit" href="/dashboard/deposits" >
               Счета
             </Link>
             <Typography color="text.primary">Открыть новой счет</Typography>
@@ -79,7 +79,7 @@ export default function DepositNew() {
     <Page title="Новый счет | Апельсин pay">
       <Container>
         <Breadcrumbs aria-label="breadcrumb" mb={5}>
-          <Link underline="hover" color="inherit" href="/dashboard/blog" >
+          <Link underline="hover" color="inherit" href="/dashboard/deposits" >
             Счета
           </Link>
           <Typography color="text.primary">Открыть новой счет</Typography>
@@ -91,7 +91,7 @@ export default function DepositNew() {
         </Stack>
         <Grid container spacing={3} alignItems="flex-start">
           {types.map((value, index) => (
-            <Grid item xs={12} sm={6} >
+            <Grid item xs={12} sm={6} key={index} >
               <DepositTypeDetail
                 key={value.id}
                 name={value.name}

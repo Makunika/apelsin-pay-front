@@ -33,7 +33,7 @@ export default function ProfileCard({ profile }) {
   }
 
   return (
-    <Grid item xs={12} sm={12} md={12} padding={1}>
+    <div>
       <Dialog open={open} fullWidth maxWidth="sm" onClose={() => setOpen(false)} >
         <DialogTitle>Паспортные данные</DialogTitle>
         <DialogContent>
@@ -91,6 +91,6 @@ export default function ProfileCard({ profile }) {
           </Stack>
         </CardContent>
       </Card>
-    </Grid>
+    </div>
   );
 }

@@ -360,8 +360,6 @@ function TransactionPayoutOpenForm({ refresh, number, commission }) {
   )
 }
 
-//                         startAdornment={<InputAdornment position="start">{values.currency.label}</InputAdornment>}
-
 TransactionPayout.propTypes = {
   number: PropTypes.string.isRequired,
   refresh: PropTypes.func,
@@ -374,6 +372,9 @@ export default function TransactionPayout({ number, refreshState, refresh, commi
     <Card>
       <CardHeader title="Вывод средств" />
       <CardContent>
+        <Typography color="text.disabled" variant="body2" gutterBottom>
+          Вывести деньги можно только в рублях
+        </Typography>
         <Accordion>
           <AccordionSummary expandIcon={<Iconify icon="eva:arrow-ios-downward-outline" />}>
             <Typography>

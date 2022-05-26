@@ -94,20 +94,6 @@ export default function Login() {
             </Typography>
             <CircularProgress />
           </Stack>
-
-          <Typography
-            variant="body2"
-            align="center"
-            sx={{
-              mt: 2,
-              display: { sm: 'none' }
-            }}
-          >
-            Нет аккаунта?&nbsp;
-            <Link variant="subtitle2" component={RouterLink} to="register" underline="hover">
-              Создать
-            </Link>
-          </Typography>
         </ContentStyle>
       </Container>
     </RootStyle>

@@ -147,7 +147,7 @@ export default function RegisterForm() {
 
           <TextField
             fullWidth
-            autoComplete="current-password"
+            autoComplete="password"
             type={showPassword ? 'text' : 'password'}
             label="Пароль"
             {...getFieldProps('password')}

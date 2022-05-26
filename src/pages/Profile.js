@@ -4,7 +4,7 @@ import {
   Container,
   Stack,
   Typography,
-  CircularProgress
+  CircularProgress, Grid
 } from '@mui/material';
 // components
 import {useEffect, useState} from "react";
@@ -15,6 +15,7 @@ import API_SECURED, {
   URL_INFO_PERSONAL
 } from "../api/ApiSecured";
 import ProfileCard from "../sections/@dashboard/profile/ProfileCard";
+import ChangePasswordCard from "../sections/@dashboard/profile/ChangePasswordCard";
 
 export default function Profile() {
   const [isLoading, setLoading] = useState(true)
@@ -60,9 +61,14 @@ export default function Profile() {
             </Button>
           )}
         </Stack>
-        <Stack direction="row" justifyContent="flex-start" alignItems="flex-start" flexWrap="wrap" mb={5}>
-          <ProfileCard profile={profile} />
-        </Stack>
+        <Grid container spacing={3} >
+          <Grid item xs={12}>
+            <ProfileCard profile={profile} />
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <ChangePasswordCard profile={profile} />
+          </Grid>
+        </Grid>
       </Container>
     </Page>
   );

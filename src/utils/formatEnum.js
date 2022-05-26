@@ -33,6 +33,9 @@ export function fStatusTransaction(status) {
   if (status === 'CREATED') {
     return 'Создана'
   }
+  if (status === 'WAIT') {
+    return "Ожидает оплату от Тинькофф"
+  }
   return status
 }
 

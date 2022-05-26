@@ -36,8 +36,7 @@ TransactionItemDetail.propTypes = {
 };
 
 function TransactionItemDetail({ item, isDeposit }) {
-  const { commissionRate, commissionValue, ownerUsername, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type } = item;
-
+  const { commissionRate, commissionValue, ownerUsername, created, currency, currencyFrom, currencyTo, fromNumber, id, innerFrom, innerTo, money, moneyWithCommission, reasonCancel, status, system, toNumber, type, tinkoffPayUrl } = item;
   return (
     <Stack justifyContent="flex-start" direction="column">
       <Box mb={2} >
@@ -65,7 +64,7 @@ function TransactionItemDetail({ item, isDeposit }) {
         <SimpleDataVisible
           colorTitle="text.error"
           label="Причина отмены"
-          text={reasonCancel}
+          text={reasonCancel || "Нет"}
         />
       )}
       <SimpleDataVisible
@@ -95,6 +94,11 @@ function TransactionItemDetail({ item, isDeposit }) {
           label="Комиссия для отправителя"
           text={`${commissionValue} ${fCurrencyByEnum(currency).label}`}
         />
+      )}
+      {tinkoffPayUrl && status === 'WAIT' && (
+        <Button fullWidth variant="contained" href={tinkoffPayUrl}>
+          Оплатить через Тинькофф
+        </Button>
       )}
     </Stack>
   );
@@ -152,9 +156,10 @@ function TransactionItem({ item, isLast, isDeposit }) {
           sx={{
             bgcolor:
               (status === 'CLOSED' && 'success.main') ||
-              (status === 'CANCEL' && 'error.main') ||
+              (status === 'CANCELED' && 'error.main') ||
               (status === 'HOLD' && 'info.main') ||
-              'primary.main'
+              (status === 'WAIT' && 'info.main') ||
+              'primary.secondary'
           }}
         />
         {isLast ? null : <TimelineConnector />}

@@ -21,6 +21,10 @@ import UserModerator from "./pages/UserModerator";
 import Profile from "./pages/Profile";
 import CompanyModerator from "./pages/CompanyModerator";
 import TypeModerate from "./pages/TypeModerate";
+import TestTinkoffPay from "./pages/TestTinkoffPay";
+import SuccessTinkoffPay from "./pages/SuccessTinkoffPay";
+import RememberPassword from "./pages/RememberPassword";
+import CreateNewPassword from "./pages/CreateNewPassword";
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +40,7 @@ export default function Router() {
         { path: 'app', element:
             <DashboardApp />
         },
-        { path: 'blog', element:
+        { path: 'deposits', element:
             <Deposit />
         },
         { path: 'deposit', element:
@@ -81,16 +85,32 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/dashboard/deposits" /> },
         { path: 'login', element:
             <GuestGuard>
               <Login />
+            </GuestGuard>
+        },
+        { path: 'reset-password', element:
+            <GuestGuard>
+              <RememberPassword />
+            </GuestGuard>
+        },
+        { path: 'reset-password/check', element:
+            <GuestGuard>
+              <CreateNewPassword />
             </GuestGuard>
         },
         { path: 'register', element:
             <GuestGuard>
               <Register />
             </GuestGuard>
+        },
+        { path: '/tinkoff/test', element: <TestTinkoffPay />},
+        { path: '/tinkoff/success', element:
+            <AuthGuard>
+              <SuccessTinkoffPay />
+            </AuthGuard>
         },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <NotFound /> }
