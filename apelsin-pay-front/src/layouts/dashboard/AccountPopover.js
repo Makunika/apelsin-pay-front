@@ -15,12 +15,7 @@ const MENU_OPTIONS = [
   {
     label: 'Профиль',
     icon: 'eva:person-fill',
-    linkTo: '#'
-  },
-  {
-    label: 'Настройки',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#'
+    linkTo: '/dashboard/profile'
   }
 ];
 

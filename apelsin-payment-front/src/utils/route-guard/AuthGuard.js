@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, {useEffect} from 'react';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {logout, useAuthDispatch, useAuthState} from "../../context";
 import {getAuthorizationUrl} from "../../api/AuthApi"
 import {isTokenExpired} from "../../api/ApiSecured";
 
 function AuthGuard({ children }) {
     const account = useAuthState();
+    const navigate = useNavigate();
     const { isLoggedIn } = account;
     const location = useLocation();
     const dispatch = useAuthDispatch();
@@ -20,7 +21,7 @@ function AuthGuard({ children }) {
     }, [location]);
     
     if (!isLoggedIn) {
-        window.location = getAuthorizationUrl()
+        navigate(-1)
     }
 
     return children;

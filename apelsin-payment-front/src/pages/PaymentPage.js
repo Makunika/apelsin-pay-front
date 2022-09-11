@@ -8,7 +8,7 @@ import {useSnackbar} from "notistack";
 import axios from "axios";
 import Page from '../components/Page';
 import PaymentForm from "../sections/PaymentForm";
-import {BASE_URL, URL_PAYMENTS} from "../api/ApiSecured";
+import {BASE_URL, URL_PAYMENTS, URL_TRANSACTION} from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
 import {fCurrencyByEnum} from "../utils/formatEnum";
 import {fTime} from "../utils/formatTime";
@@ -31,6 +31,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0)
 }));
 
+const currency = [
+  'EUR',
+  'RUB',
+  'USD'
+]
+
+function getLast(c) {
+  return currency.filter(cu => cu !== c)
+}
+
 // ----------------------------------------------------------------------
 
 export default function PaymentPage() {
@@ -40,6 +50,7 @@ export default function PaymentPage() {
   const {enqueueSnackbar} = useSnackbar();
   const [ms, setMs] = useState(0)
   const [isClose, setClose] = useState(false)
+  const [otherCurrencies, setOtherCurrencies] = useState([])
   const params = new URLSearchParams(search);
   const id = params.get('orderId');
 
@@ -62,6 +73,7 @@ export default function PaymentPage() {
     let interval
     let timeout
     setLoading(true)
+    let order;
     axios.get(`${BASE_URL}${URL_PAYMENTS}public/order/${id}`,
       {
         responseType: "json"
@@ -75,7 +87,7 @@ export default function PaymentPage() {
           setClose(true)
           setOrder(res.data)
           setLoading(false)
-          return
+          return null
         }
         const ms = endDate.getTime() - now.getTime()
         setMs(ms)
@@ -88,8 +100,31 @@ export default function PaymentPage() {
         }, ms)
 
         setOrder(res.data)
+        order = res.data;
+        const currencies = getLast(order.currency);
+        return {
+          currencies,
+          amount: order.amount,
+          current: order.currency
+        };
+      })
+      .then(async currency => {
+        console.log(currency)
+        if (currency) {
+          const result = await Promise.all(currency.currencies.map(async c => {
+            const data = {
+              currencyTo: c,
+              currencyFrom: currency.current,
+              amount: currency.amount
+            }
+            const result = await axios.post(`${BASE_URL}${URL_TRANSACTION}public/currency`, data);
+            console.log(result)
+            return result.data
+          }))
+          console.log(result)
+          setOtherCurrencies(result)
+        }
         setLoading(false)
-
       })
       .catch(reason => {
         errorHandler(enqueueSnackbar, reason)
@@ -132,6 +167,12 @@ export default function PaymentPage() {
               <Typography variant="h3" mt={1} align="right">
                 {order.amount} {fCurrencyByEnum(order.currency).label}
               </Typography>
+              {otherCurrencies.map((c, index) => (
+                <Typography key={index} variant="body1"  align="right" color="text.disabled">
+                  {c.amount} {fCurrencyByEnum(c.currency).label}
+                </Typography>
+              ))}
+
             </Box>
 
             {!isClose ? (

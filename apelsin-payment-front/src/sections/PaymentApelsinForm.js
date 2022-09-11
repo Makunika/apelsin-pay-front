@@ -43,7 +43,7 @@ export default function PaymentApelsinForm({order, deposits}) {
           <CircularProgress />
         </Box>
       ) : (
-        <div>
+        <Stack spacing={3}>
           {filteredDeposits.map((deposit, index) => (
             <DepositCard deposit={deposit} key={index} onClick={handleCreateApelsin} />
           ))}
@@ -52,12 +52,12 @@ export default function PaymentApelsinForm({order, deposits}) {
               У вас нет доступных счетов для списания
             </Typography>
           )}
-        </div>
+        </Stack>
       )}
       <Button
         fullWidth
         variant="outlined"
-        onClick={() => navigate(`/?id=${order.id}`)}
+        onClick={() => navigate(`/?orderId=${order.id}`)}
         >
         Назад
       </Button>

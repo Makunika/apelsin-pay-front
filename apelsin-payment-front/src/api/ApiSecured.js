@@ -3,6 +3,7 @@ import axios from "axios";
 // https://www.npmjs.com/package/axios-jwt
 
 const BASE_URL = "http://api.pshiblo.xyz/"
+// const BASE_URL = "http://localhost:8080/"
 const URL_AUTH = "auth-service/"
 const URL_TRANSACTION = "transaction-service/"
 const URL_INFO_BUSINESS = "info-business-service/"

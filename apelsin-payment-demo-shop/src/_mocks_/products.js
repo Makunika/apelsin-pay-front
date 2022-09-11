@@ -47,12 +47,39 @@ const PRODUCT_COLOR = [
 const products = [...Array(24)].map((_, index) => {
   const setIndex = index + 1;
 
+  const price = sample([
+    {
+      currency: 'EUR',
+      prices: [9.99, 19.99, 29.99, 30.00, 10.00, 99.99, 100.0]
+    },
+    {
+      currency: 'RUB',
+      prices: [1500.00, 1399.99, 1999.99, 2999.99, 4000.0, 799.99]
+    },
+    {
+      currency: 'RUB',
+      prices: [1500.00, 1399.99, 1999.99, 2999.99, 4000.0, 799.99]
+    },
+    {
+      currency: 'RUB',
+      prices: [1500.00, 1399.99, 1999.99, 2999.99, 4000.0, 799.99]
+    },
+    {
+      currency: 'RUB',
+      prices: [1500.00, 1399.99, 1999.99, 2999.99, 4000.0, 799.99]
+    },
+    {
+      currency: 'USD',
+      prices: [9.99, 19.99, 29.99, 30.00, 10.00, 99.99, 100.0, 999.99, 599.99]
+    }
+  ]);
+
   return {
     id: faker.datatype.uuid(),
     cover: mockImgProduct(setIndex),
     name: PRODUCT_NAME[index],
     shortName: 'Кроссовки',
-    price: faker.datatype.number({ min: 4, max: 3000, precision: 0.01 }),
+    price: sample(price.prices),
     colors:
       (setIndex === 1 && PRODUCT_COLOR.slice(0, 2)) ||
       (setIndex === 2 && PRODUCT_COLOR.slice(1, 3)) ||
@@ -61,7 +88,7 @@ const products = [...Array(24)].map((_, index) => {
       (setIndex === 23 && PRODUCT_COLOR.slice(4, 6)) ||
       (setIndex === 24 && PRODUCT_COLOR.slice(5, 6)) ||
       PRODUCT_COLOR,
-    currency: sample(['EUR', 'RUB', 'RUB', 'RUB', 'RUB', 'USD'])
+    currency: price.currency
   };
 });
 

@@ -8,7 +8,7 @@ import {useSnackbar} from "notistack";
 import axios from "axios";
 import Page from '../components/Page';
 import PaymentForm from "../sections/PaymentForm";
-import apiSecured, {BASE_URL, URL_ACCOUNT_PERSONAL, URL_PAYMENTS} from "../api/ApiSecured";
+import apiSecured, {BASE_URL, URL_ACCOUNT_PERSONAL, URL_PAYMENTS, URL_TRANSACTION} from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
 import {fCurrencyByEnum} from "../utils/formatEnum";
 import {fTime} from "../utils/formatTime";
@@ -32,6 +32,16 @@ const ContentStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0)
 }));
 
+const currency = [
+  'EUR',
+  'RUB',
+  'USD'
+]
+
+function getLast(c) {
+  return currency.filter(cu => cu !== c)
+}
+
 // ----------------------------------------------------------------------
 
 export default function ApelsinPage() {
@@ -39,6 +49,7 @@ export default function ApelsinPage() {
   const [loading, setLoading] = useState(false)
   const [order, setOrder] = useState(null)
   const [deposits, setDeposits] = useState(null)
+  const [otherCurrencies, setOtherCurrencies] = useState([])
   const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
   const [ms, setMs] = useState(0)
@@ -74,7 +85,7 @@ export default function ApelsinPage() {
         const now = new Date(Date.now());
         const endDate = new Date(res.data.endDate);
         if (endDate.getTime() < now.getTime() || res.data.orderStatus === 'HOLD' || res.data.orderStatus === 'COMPLETED' || res.data.orderStatus === 'CANCEL') {
-          navigate(`/?id=${id}`)
+          navigate(`/?orderId=${id}`)
         }
         const ms = endDate.getTime() - now.getTime()
         setMs(ms)
@@ -83,10 +94,32 @@ export default function ApelsinPage() {
         }, 1000)
 
         timeout = setTimeout(() => {
-          navigate(`/?id=${id}`)
+          navigate(`/?orderId=${id}`)
         }, ms)
 
         setOrder(res.data)
+        const currencies = getLast(res.data.currency);
+        return {
+          currencies,
+          amount: res.data.amount,
+          current: res.data.currency
+        };
+
+      })
+      .then(async currency => {
+        console.log(currency)
+        if (currency) {
+          const result = await Promise.all(currency.currencies.map(async c => {
+            const data = {
+              currencyTo: c,
+              currencyFrom: currency.current,
+              amount: currency.amount
+            }
+            const result = await axios.post(`${BASE_URL}${URL_TRANSACTION}public/currency`, data);
+            return result.data
+          }))
+          setOtherCurrencies(result)
+        }
         return apiSecured.get(`${URL_ACCOUNT_PERSONAL}api/personal`)
       })
       .then(res => {
@@ -134,6 +167,11 @@ export default function ApelsinPage() {
               <Typography variant="h3" mt={1} align="right">
                 {order.amount} {fCurrencyByEnum(order.currency).label}
               </Typography>
+              {otherCurrencies.map((c, index) => (
+                <Typography key={index} variant="body1"  align="right" color="text.disabled">
+                  {c.amount} {fCurrencyByEnum(c.currency).label}
+                </Typography>
+              ))}
             </Box>
 
             <PaymentApelsinForm order={order} deposits={deposits} />

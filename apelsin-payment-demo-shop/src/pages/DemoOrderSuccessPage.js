@@ -47,6 +47,7 @@ export default function DemoOrderSuccessPage() {
   const [isSend, setSend] = useState(false)
   const [order, setOrder] = useState(null)
   const {enqueueSnackbar} = useSnackbar();
+  const [isCancel, setCancel] = useState(false)
   const params = new URLSearchParams(search);
   const id = params.get('apelsinOrderId');
 
@@ -74,6 +75,7 @@ export default function DemoOrderSuccessPage() {
         setLoading(false)
         if (res.data.orderStatus === 'COMPLETED' || res.data.orderStatus === 'CANCEL') {
           setSend(true)
+          setCancel(res.data.orderStatus === 'CANCEL')
         }
       })
       .catch(reason => {
@@ -126,7 +128,7 @@ export default function DemoOrderSuccessPage() {
               <CardContent>
                 <Box sx={{ mb: 4 }}>
                   <Typography variant="h3">
-                    Покупка получилась!
+                    {!isCancel ? "Покупка получилась!" : "Покупка отменена"}
                   </Typography>
                   {!isSend && (
                     <Typography variant="body1" color="text.secondary" gutterBottom mb={4}>
