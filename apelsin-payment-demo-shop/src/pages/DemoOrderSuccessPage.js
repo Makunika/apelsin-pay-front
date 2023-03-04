@@ -2,22 +2,20 @@ import { styled } from '@mui/material/styles';
 import {
   Box,
   Card,
-  Link,
   Container,
   Typography,
   CircularProgress,
   Stack,
   Button,
-  Divider,
   CardContent
 } from '@mui/material';
 // layouts
 import React, {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 // components
 import {useSnackbar} from "notistack";
 import Page from '../components/Page';
-import apiSecured, {BASE_URL} from "../api/ApiSecured";
+import apiSecured from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
 import {fCurrencyByEnum} from "../utils/formatEnum";
 
@@ -153,7 +151,7 @@ export default function DemoOrderSuccessPage() {
                     <Button
                       size="large"
                       variant="contained"
-                      href="http://pshiblo.xyz/dashboard/company?4"
+                      href="http://graduate.pshiblo.xyz/dashboard/company?4"
                     >
                       Перейти в аккаунт компании, куда пришла оплата
                     </Button>

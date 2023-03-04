@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
 // material
-import {Box, Card, Link, Typography, Stack, Button} from '@mui/material';
+import {Box, Card, Typography, Stack, Button} from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import {useSnackbar} from "notistack";
@@ -45,7 +44,7 @@ export default function ShopProductCard({ product }) {
       amount: price,
       currency,
       companyId: 4,
-      redirectUrl: "http://demoshop.pshiblo.xyz/success",
+      redirectUrl: "http://demoshop.graduate.pshiblo.xyz/success",
       endDate: toISOString(addMinutes(new Date(), 30))
     }
     apiSecured.post(`public/order`, data)

@@ -12,7 +12,7 @@ export async function loginUser(dispatch, loginPayload) {
     const credentials = {
         grant_type: "authorization_code",
         code: loginPayload.code,
-        redirect_uri: "http://pshiblo.xyz/login",
+        redirect_uri: "http://graduate.pshiblo.xyz/login",
         client_id: "browser_main",
     }
 

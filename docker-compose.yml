@@ -1,8 +1,8 @@
-version: '2.1'
+version: '3.7'
 services:
   ui-main:
     build: apelsin-pay-front
-    image: makuni/apelsin-pay-front
+    image: makuni/apelsin-pay-front:latest
     restart: always
     ports:
       - "3000:3000"
@@ -13,7 +13,7 @@ services:
 
   ui-payment:
     build: apelsin-payment-front
-    image: makuni/apelsin-payment-front
+    image: makuni/apelsin-payment-front:latest
     restart: always
     ports:
       - "3002:3002"
@@ -24,10 +24,21 @@ services:
 
   ui-demo-shop:
     build: apelsin-payment-demo-shop
-    image: makuni/apelsin-payment-demo-shop
+    image: makuni/apelsin-payment-demo-shop:latest
     restart: always
     ports:
       - "3001:3001"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  balancer:
+    build: apelsin-balancer
+    image: makuni/apelsin-balancer:latest
+    restart: always
+    ports:
+      - "80:80"
     logging:
       options:
         max-size: "10m"

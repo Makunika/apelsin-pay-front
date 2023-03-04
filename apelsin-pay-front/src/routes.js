@@ -1,4 +1,4 @@
-import {Navigate, Redirect, useRoutes} from 'react-router-dom';
+import {Navigate, useRoutes} from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
@@ -6,7 +6,6 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
-import Products from './pages/Products';
 import Deposit from './pages/Deposit';
 import NotFound from './pages/Page404';
 import AuthGuard from "./utils/route-guard/AuthGuard";
@@ -117,7 +116,7 @@ export default function Router() {
         { path: '*', element: <NotFound /> },
       ]
     },
-    { path: '/demoshop', element: <GoTo to="http://demoshop.pshiblo.xyz" /> },
+    { path: '/demoshop', element: <GoTo to="http://demoshop.graduate.pshiblo.xyz" /> },
     { path: '*', element: <NotFound /> }
   ]);
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // https://www.npmjs.com/package/axios-jwt
 
-export const BASE_URL = "http://api.pshiblo.xyz/payment-service/"
+export const BASE_URL = "http://api.graduate.pshiblo.xyz/payment-service/"
 
 const API_SECURED = axios.create({
     baseURL: BASE_URL,

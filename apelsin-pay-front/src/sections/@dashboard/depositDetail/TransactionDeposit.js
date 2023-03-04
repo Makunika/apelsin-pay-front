@@ -142,7 +142,7 @@ function TransactionDepositForm({ refresh, number }) {
     ).then(res => {
       console.log(res.data)
       if (res.data.tinkoffPayUrl) {
-        window.location.href = res.data.tinkoffPayUrl.replaceAll("localost:3000", "pshiblo.xyz")
+        window.location.href = res.data.tinkoffPayUrl.replaceAll("localost:3000", "graduate.pshiblo.xyz")
       }
       setOpenDialog(false)
       setLoadSend(false)

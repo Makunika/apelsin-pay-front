@@ -18,7 +18,7 @@ export default function DemoShopPage() {
           </Typography>
           <Button
             size="medium"
-            href="http://pshiblo.xyz"
+            href="http://graduate.pshiblo.xyz"
             variant="outlined"
           >
             Перейти в Apelsin pay

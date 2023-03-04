@@ -4,7 +4,7 @@ import qs from "qs";
 
 // https://www.npmjs.com/package/axios-jwt
 
-const BASE_URL = "http://api.pshiblo.xyz/"
+const BASE_URL = "http://api.graduate.pshiblo.xyz/"
 const URL_AUTH = "auth-service/"
 const URL_TRANSACTION = "transaction-service/"
 const URL_INFO_BUSINESS = "info-business-service/"
