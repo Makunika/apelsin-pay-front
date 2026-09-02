@@ -7,6 +7,7 @@ import {useSnackbar} from "notistack";
 import {fCurrencyByEnum} from "../utils/formatEnum";
 import apiSecured from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
+import {COMPANY_ID, SHOP_URL} from "../config";
 
 // ----------------------------------------------------------------------
 
@@ -43,8 +44,8 @@ export default function ShopProductCard({ product }) {
       fullName: name,
       amount: price,
       currency,
-      companyId: 4,
-      redirectUrl: "http://demoshop.graduate.pshiblo.xyz/success",
+      companyId: COMPANY_ID,
+      redirectUrl: `${SHOP_URL}/success`,
       endDate: toISOString(addMinutes(new Date(), 30))
     }
     apiSecured.post(`public/order`, data)

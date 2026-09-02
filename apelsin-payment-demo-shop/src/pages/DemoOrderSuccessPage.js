@@ -18,6 +18,7 @@ import Page from '../components/Page';
 import apiSecured from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
 import {fCurrencyByEnum} from "../utils/formatEnum";
+import {COMPANY_ID, MAIN_UI_URL} from "../config";
 
 // ----------------------------------------------------------------------
 
@@ -151,7 +152,7 @@ export default function DemoOrderSuccessPage() {
                     <Button
                       size="large"
                       variant="contained"
-                      href="http://graduate.pshiblo.xyz/dashboard/company?4"
+                      href={`${MAIN_UI_URL}/dashboard/company?${COMPANY_ID}`}
                     >
                       Перейти в аккаунт компании, куда пришла оплата
                     </Button>

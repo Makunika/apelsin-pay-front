@@ -5,6 +5,7 @@ import Page from '../components/Page';
 //
 import PRODUCTS from '../_mocks_/products';
 import ProductList from "../sections/ProductList";
+import {MAIN_UI_URL} from "../config";
 
 // ----------------------------------------------------------------------
 
@@ -18,7 +19,7 @@ export default function DemoShopPage() {
           </Typography>
           <Button
             size="medium"
-            href="http://graduate.pshiblo.xyz"
+            href={MAIN_UI_URL}
             variant="outlined"
           >
             Перейти в Apelsin pay

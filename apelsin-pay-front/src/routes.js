@@ -25,6 +25,7 @@ import SuccessTinkoffPay from "./pages/SuccessTinkoffPay";
 import RememberPassword from "./pages/RememberPassword";
 import CreateNewPassword from "./pages/CreateNewPassword";
 import GoTo from "./utils/route/GoTo";
+import { DEMO_SHOP_URL } from "./config";
 
 // ----------------------------------------------------------------------
 
@@ -116,7 +117,7 @@ export default function Router() {
         { path: '*', element: <NotFound /> },
       ]
     },
-    { path: '/demoshop', element: <GoTo to="http://demoshop.graduate.pshiblo.xyz" /> },
+    { path: '/demoshop', element: <GoTo to={DEMO_SHOP_URL} /> },
     { path: '*', element: <NotFound /> }
   ]);
 }
