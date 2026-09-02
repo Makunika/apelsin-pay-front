@@ -22,6 +22,7 @@ import {Form, FormikProvider, useFormik} from "formik";
 import {LoadingButton} from "@mui/lab";
 import {useState} from "react";
 import {fCurrencyByEnum} from "../../../utils/formatEnum";
+import {errorHandler} from "../../../utils/errorUtils";
 import apiSecured, {BASE_URL, URL_TRANSACTION} from "../../../api/ApiSecured";
 import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
@@ -142,7 +143,7 @@ function TransactionDepositForm({ refresh, number }) {
     ).then(res => {
       console.log(res.data)
       if (res.data.tinkoffPayUrl) {
-        window.location.href = res.data.tinkoffPayUrl.replaceAll("localost:3000", "graduate.pshiblo.xyz")
+        window.location.href = res.data.tinkoffPayUrl
       }
       setOpenDialog(false)
       setLoadSend(false)
@@ -152,7 +153,7 @@ function TransactionDepositForm({ refresh, number }) {
       }, 2000)
     }).catch(reason => {
       console.log(reason)
-      enqueueSnackbar(reason, {variant: "error"})
+      errorHandler(enqueueSnackbar, reason)
       setOpenDialog(false)
       setLoadSend(false)
     })

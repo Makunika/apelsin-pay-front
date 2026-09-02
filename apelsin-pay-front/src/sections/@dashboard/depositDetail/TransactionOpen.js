@@ -19,6 +19,7 @@ import {LoadingButton} from "@mui/lab";
 import InputMask from "react-input-mask";
 import {useState} from "react";
 import {currencies, fCurrencyByEnum} from "../../../utils/formatEnum";
+import {errorHandler} from "../../../utils/errorUtils";
 import apiSecured, {BASE_URL, URL_TRANSACTION} from "../../../api/ApiSecured";
 import SimpleDataVisible from "../../../components/SimpleDataVisible";
 
@@ -171,7 +172,7 @@ function TransactionOpenForm({ refresh, number }) {
       }, 2000)
     }).catch(reason => {
       console.log(reason)
-      enqueueSnackbar(reason, {variant: "error"})
+      errorHandler(enqueueSnackbar, reason)
       setOpenDialog(false)
       setLoadSend(false)
     })
