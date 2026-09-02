@@ -45,24 +45,25 @@ export default function Login() {
   const dispatch = useAuthDispatch();
   const {enqueueSnackbar} = useSnackbar();
 
-  console.log(location)
-  const params = new URLSearchParams(location.search);
-  console.log(params.get('code'))
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+    if (params.has("error")) {
+      enqueueSnackbar(`Ошибка входа: ${params.get("error_description") || params.get("error")}`, {variant: "error"})
+      return
+    }
     if (!params.has("code")) {
       return
     }
 
-    loginUser(dispatch, {code: params.get("code")})
+    loginUser(dispatch, {code: params.get("code"), state: params.get("state")})
         .then(() => {
           enqueueSnackbar("Вы авторизованы", {variant: "success"})
         })
         .catch(reason => {
           console.log(reason)
-          enqueueSnackbar(`Ошибка: ${reason}`, {variant: "error"})
+          enqueueSnackbar(`Ошибка: ${reason.message || reason}`, {variant: "error"})
         })
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

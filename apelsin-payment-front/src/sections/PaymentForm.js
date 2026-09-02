@@ -5,7 +5,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {BASE_URL, URL_PAYMENTS} from "../api/ApiSecured";
 import {errorHandler} from "../utils/errorUtils";
-import {getAuthorizationUrl} from "../api/AuthApi";
+import {redirectToLogin} from "../api/AuthApi";
 import {useAuthState} from "../context";
 
 PaymentForm.propTypes = {
@@ -37,7 +37,7 @@ export default function PaymentForm({order}) {
     if (authState.isLoggedIn) {
       navigate(`/apelsin?id=${order.id}`, { replace: true })
     } else {
-      window.location.href = getAuthorizationUrl(order.id)
+      redirectToLogin(order.id)
     }
   };
 

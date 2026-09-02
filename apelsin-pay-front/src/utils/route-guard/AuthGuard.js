@@ -1,14 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useAuthState} from "../../context";
-import {getAuthorizationUrl} from "../../api/AuthApi"
+import {redirectToLogin} from "../../api/AuthApi"
 
 function AuthGuard({ children }) {
     const account = useAuthState();
     const { isLoggedIn } = account;
-    
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            redirectToLogin()
+        }
+    }, [isLoggedIn]);
+
     if (!isLoggedIn) {
-        window.location = getAuthorizationUrl()
+        return null;
     }
 
     return children;

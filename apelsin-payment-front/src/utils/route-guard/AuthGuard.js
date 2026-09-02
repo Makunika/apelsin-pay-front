@@ -1,27 +1,33 @@
 import PropTypes from 'prop-types';
-import React, {useEffect} from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import {useEffect} from 'react';
+import {useLocation} from "react-router-dom";
 import {logout, useAuthDispatch, useAuthState} from "../../context";
-import {getAuthorizationUrl} from "../../api/AuthApi"
-import {isTokenExpired} from "../../api/ApiSecured";
+import {redirectToLogin} from "../../api/AuthApi"
+import {currentOrderId} from "../../api/ApiSecured";
+import {getAccessToken, isTokenExpired} from "../tokenStorage";
 
 function AuthGuard({ children }) {
     const account = useAuthState();
-    const navigate = useNavigate();
     const { isLoggedIn } = account;
     const location = useLocation();
     const dispatch = useAuthDispatch();
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
-            if (isTokenExpired(localStorage.getItem("token"))) {
-                logout(dispatch)
-            }
+        const token = getAccessToken()
+        if (token && isTokenExpired(token)) {
+            logout(dispatch)
         }
-    }, [location]);
-    
+    }, [location, dispatch]);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            // токена нет или он истёк — новый вход через PKCE с тем же заказом
+            redirectToLogin(currentOrderId())
+        }
+    }, [isLoggedIn]);
+
     if (!isLoggedIn) {
-        navigate(-1)
+        return null;
     }
 
     return children;

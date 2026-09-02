@@ -1,9 +1,9 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config";
+import { clearSession, getAccessToken, isTokenExpired, parseJwt } from "../utils/tokenStorage";
+import { redirectToLogin } from "./AuthApi";
 
-// https://www.npmjs.com/package/axios-jwt
-
-const BASE_URL = "http://api.graduate.pshiblo.xyz/"
-// const BASE_URL = "http://localhost:8080/"
+const BASE_URL = API_BASE_URL;
 const URL_AUTH = "auth-service/"
 const URL_TRANSACTION = "transaction-service/"
 const URL_INFO_BUSINESS = "info-business-service/"
@@ -13,42 +13,43 @@ const URL_ACCOUNT_BUSINESS = "account-business-service/"
 const URL_PAYMENTS = "payment-service/"
 const URL_USERS = "users-service/"
 
-
-export const parseJwt = (token) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
-        .join('')
-    );
-    return JSON.parse(jsonPayload);
-};
-
-export const isTokenExpired = token => {
-    const { exp } = parseJwt(token);
-    return Date.now() >= exp * 1000
-};
+// id заказа из текущего URL (/apelsin?id=... или /?orderId=...), чтобы вернуться к нему после входа
+export function currentOrderId() {
+    const params = new URLSearchParams(window.location.search)
+    return params.get("id") || params.get("orderId")
+}
 
 const API_SECURED = axios.create({
     baseURL: BASE_URL,
     responseType: "json"
 })
 
+// Bearer из localStorage. По истечении access token или на 401 не чистим весь localStorage,
+// а сбрасываем сессию и уводим на вход (PKCE) с тем же заказом.
 API_SECURED.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
-      ? localStorage.getItem('token')
-      : '';
-
-    if(isTokenExpired(token)) {
-        localStorage.clear();
+    const token = getAccessToken()
+    if (!token) {
+        return config
     }
-
-    config.headers.Authorization = token !== '' ? `Bearer ${token}` : '';
-    return config;
+    if (isTokenExpired(token)) {
+        clearSession()
+        redirectToLogin(currentOrderId())
+        return Promise.reject(new axios.Cancel("Сессия истекла, выполняется повторный вход"))
+    }
+    config.headers.Authorization = `Bearer ${token}`
+    return config
 });
 
-export default API_SECURED;
-export {BASE_URL, URL_PAYMENTS, URL_TRANSACTION, URL_AUTH, URL_USERS, URL_INFO_BUSINESS, URL_INFO_PERSONAL, URL_ACCOUNT_PERSONAL, URL_ACCOUNT_BUSINESS};
+API_SECURED.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401 && getAccessToken()) {
+            clearSession()
+            redirectToLogin(currentOrderId())
+        }
+        return Promise.reject(error)
+    }
+);
 
+export default API_SECURED;
+export {BASE_URL, URL_PAYMENTS, URL_TRANSACTION, URL_AUTH, URL_USERS, URL_INFO_BUSINESS, URL_INFO_PERSONAL, URL_ACCOUNT_PERSONAL, URL_ACCOUNT_BUSINESS, parseJwt, isTokenExpired};

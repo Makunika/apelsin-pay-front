@@ -1,17 +1,11 @@
-import {parseJwt} from "../api/ApiSecured";
+import { clearSession, saveSession } from "../utils/tokenStorage";
 
 export async function loginUser(dispatch, token) {
-    const currentUser = {
-        accessToken: token,
-        user: parseJwt(token)
-    }
-    console.log(currentUser)
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    localStorage.setItem('token', token);
+    const currentUser = saveSession(token)
     dispatch({ type: 'LOGIN_SUCCESS', payload: currentUser });
 }
 
 export function logout(dispatch) {
     dispatch({ type: 'LOGOUT' });
-    localStorage.clear();
+    clearSession()
 }

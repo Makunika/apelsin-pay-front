@@ -1,22 +1,14 @@
-import {getAccessToken, getRefreshToken, isLoggedIn} from "axios-jwt";
+import { getSession, isLoggedIn } from "../utils/tokenStorage";
 
-const user = localStorage.getItem('currentUser')
-    ? JSON.parse(localStorage.getItem('currentUser')).user
-    : '';
-
-const accessToken = getAccessToken();
-const refreshToken = getRefreshToken();
+const session = getSession();
 
 export const initialState = {
-    user: '' || user,
-    accessToken: '' || accessToken,
-    refreshToken: '' || refreshToken,
+    user: session ? session.user : '',
+    accessToken: session ? session.accessToken : '',
     isLoggedIn: isLoggedIn(),
     loading: false,
     errorMessage: null,
 };
-
-console.log(initialState);
 
 export const AuthReducer = (initialState, action) => {
     switch (action.type) {
@@ -25,7 +17,6 @@ export const AuthReducer = (initialState, action) => {
                 ...initialState,
                 user: action.payload.user,
                 accessToken: action.payload.accessToken,
-                refreshToken: action.payload.refreshToken,
                 isLoggedIn: true,
                 loading: false,
             };
@@ -34,7 +25,6 @@ export const AuthReducer = (initialState, action) => {
                 ...initialState,
                 user: '',
                 accessToken: '',
-                refreshToken: '',
                 isLoggedIn: false,
             };
         default:

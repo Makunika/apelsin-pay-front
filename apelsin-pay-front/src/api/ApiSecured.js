@@ -1,10 +1,9 @@
 import axios from "axios";
-import {applyAuthTokenInterceptor, clearAuthTokens} from "axios-jwt";
-import qs from "qs";
+import { API_BASE_URL } from "../config";
+import { clearSession, getAccessToken, isTokenExpired, parseJwt } from "../utils/tokenStorage";
+import { redirectToLogin } from "./AuthApi";
 
-// https://www.npmjs.com/package/axios-jwt
-
-const BASE_URL = "http://api.graduate.pshiblo.xyz/"
+const BASE_URL = API_BASE_URL;
 const URL_AUTH = "auth-service/"
 const URL_TRANSACTION = "transaction-service/"
 const URL_INFO_BUSINESS = "info-business-service/"
@@ -19,66 +18,32 @@ const API_SECURED = axios.create({
     responseType: "json"
 })
 
-const requestRefresh = async (refresh) => {
-    const url = `${BASE_URL}${URL_AUTH}oauth/token`
-    const headerAuth = `Basic ${btoa("browser_main:")}`
-    console.log(refresh)
-    const credentials = {
-        grant_type: "refresh_token",
-        refresh_token: refresh,
-        client_id: "browser_main",
+// Bearer из localStorage; refresh-токена у public-клиента нет — по истечении access token
+// или на 401 сбрасываем сессию и уводим на вход (PKCE). Запросы без токена (public/**) проходят как есть.
+API_SECURED.interceptors.request.use((config) => {
+    const token = getAccessToken()
+    if (!token) {
+        return config
     }
-
-    const config = {
-        url,
-        headers: {
-            "Authorization": headerAuth
-        },
-        method: 'post',
-        data: qs.stringify(credentials)
-    };
-    try {
-        const response = await axios(config);
-        const {data} = response
-        console.log(response)
-        const currentUser = {
-            accessToken: data.access_token,
-            refreshToken: data.refresh_token,
-            user: parseJwt(data.access_token)
-        }
-        console.log(currentUser)
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        return {
-            accessToken: currentUser.accessToken,
-            refreshToken: currentUser.refreshToken
-        }
-    } catch (e) {
-        console.log(e)
-        localStorage.removeItem('currentUser');
-        clearAuthTokens()
+    if (isTokenExpired(token)) {
+        clearSession()
+        redirectToLogin()
+        return Promise.reject(new axios.Cancel("Сессия истекла, выполняется повторный вход"))
     }
-    return {}
-}
-
-
-applyAuthTokenInterceptor(API_SECURED, {
-    requestRefresh,
-    header: "Authorization",
-    headerPrefix: "Bearer "
+    config.headers.Authorization = `Bearer ${token}`
+    return config
 });
 
-const parseJwt = (token) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-        atob(base64)
-            .split('')
-            .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
-            .join('')
-    );
-    return JSON.parse(jsonPayload);
-};
+API_SECURED.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401 && getAccessToken()) {
+            clearSession()
+            redirectToLogin()
+        }
+        return Promise.reject(error)
+    }
+);
 
 export default API_SECURED;
 export {BASE_URL, URL_PAYMENTS, URL_TRANSACTION, URL_AUTH, URL_USERS, URL_INFO_BUSINESS, URL_INFO_PERSONAL, URL_ACCOUNT_PERSONAL, URL_ACCOUNT_BUSINESS, parseJwt};
-

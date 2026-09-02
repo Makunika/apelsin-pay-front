@@ -1,16 +1,22 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Navigate} from "react-router-dom";
 import {useAuthState} from "../../context";
-import {getAuthorizationUrl} from "../../api/AuthApi"
+import {redirectToLogin} from "../../api/AuthApi"
 import {isModerator} from "../userUtils";
 
 function ModeratorGuard({ children }) {
   const account = useAuthState();
   const { isLoggedIn, user } = account;
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      redirectToLogin()
+    }
+  }, [isLoggedIn]);
+
   if (!isLoggedIn) {
-    window.location = getAuthorizationUrl()
+    return null;
   }
 
   if (!isModerator(user)) {

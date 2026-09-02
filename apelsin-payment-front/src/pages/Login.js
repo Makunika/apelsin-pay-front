@@ -9,6 +9,7 @@ import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import {loginUser, useAuthDispatch} from "../context";
+import {exchangeCodeForToken, orderIdFromState} from "../api/AuthApi";
 
 // ----------------------------------------------------------------------
 
@@ -46,24 +47,29 @@ export default function Login() {
   const dispatch = useAuthDispatch()
   const {enqueueSnackbar} = useSnackbar()
 
-  console.log(location)
-  const params = new URLSearchParams(location.hash.substring(1));
-  console.log(params.get('access_token'))
   useEffect(() => {
-    if (!params.has("access_token")) {
+    const params = new URLSearchParams(location.search);
+    if (params.has("error")) {
+      enqueueSnackbar(`Ошибка входа: ${params.get("error_description") || params.get("error")}`, {variant: "error"})
       return
     }
+    if (!params.has("code")) {
+      return
+    }
+    const state = params.get("state")
+    const orderId = orderIdFromState(state)
 
-    loginUser(dispatch, params.get('access_token'))
+    exchangeCodeForToken(params.get("code"), state)
+        .then((data) => loginUser(dispatch, data.access_token))
         .then(() => {
           enqueueSnackbar("Вы авторизованы", {variant: "success"})
-          navigate(`/apelsin/?id=${params.get('state')}`, { replace: true })
+          navigate(`/apelsin/?id=${orderId}`, { replace: true })
         })
         .catch(reason => {
           console.log(reason)
-          enqueueSnackbar(`Ошибка: ${reason}`, {variant: "error"})
+          enqueueSnackbar(`Ошибка: ${reason.message || reason}`, {variant: "error"})
         })
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

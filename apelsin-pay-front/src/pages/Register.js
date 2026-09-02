@@ -8,7 +8,7 @@ import AuthLayout from '../layouts/AuthLayout';
 // components
 import Page from '../components/Page';
 import { RegisterForm } from '../sections/authentication/register';
-import {getAuthorizationUrl} from "../api/AuthApi";
+import {redirectToLogin} from "../api/AuthApi";
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ export default function Register() {
     <RootStyle title="Регистрация | Apelsin pay">
       <AuthLayout>
         Уже есть аккаунт? &nbsp;
-        <Link underline="none" variant="subtitle2" href={getAuthorizationUrl()} to="/login">
+        <Link underline="none" variant="subtitle2" component="button" onClick={() => redirectToLogin()}>
           Войти
         </Link>
       </AuthLayout>
@@ -90,7 +90,7 @@ export default function Register() {
             }}
           >
             Уже есть аккаунт?&nbsp;
-            <Link underline="hover" href={getAuthorizationUrl()}>
+            <Link underline="hover" component="button" onClick={() => redirectToLogin()}>
               Войти
             </Link>
           </Typography>
